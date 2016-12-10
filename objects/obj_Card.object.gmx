@@ -206,7 +206,7 @@ script_execute(PlayCurrentCard);
 script_execute(SetCardVision);
 
 obj_GameController.IsItMyTime = false;
-
+obj_Timer.Freeze = true;
 }
 </string>
           </argument>
@@ -237,18 +237,27 @@ draw_set_halign(fa_center);
 CardNameText = string_replace(CardName, " ", "#");
 CardNameText = string_replace(CardNameText, "(newcard)", "");
 draw_text(x, y + 40, CardNameText);
-draw_set_colour(c_black);
-draw_text(x - 60, y + 80, CardSelfTowerHp);
-draw_text(x + 60, y + 80, CardEnemyTowerHp);
-draw_set_colour(c_white);
+
 description = ""; 
-TextCost = "";
 
+draw_set_colour(c_white);
 draw_text(x, y - 135, string(CardRes1) + "  " + string(CardRes2) + "  " + string(CardRes3));
-
-draw_set_colour(c_yellow);
-
 //Формирование описалова
+draw_set_colour(c_black);
+if CardSelfTowerHp = CardEnemyTowerHp and CardSelfTowerHp &lt;&gt; 0
+{
+    description += script_execute(GetValueWithPM, CardSelfTowerHp) + " к башням#всех игроков#"    
+}
+else
+{
+    if CardSelfTowerHp &lt;&gt; 0 {description += script_execute(GetValueWithPM, CardSelfTowerHp) + " к башне#";}  
+    if CardEnemyTowerHp &lt;&gt; 0 {description += script_execute(GetValueWithPM, CardEnemyTowerHp) + " к башне врага#";}    
+}
+
+
+
+
+
 GrSelfRes = false;
 GrEnemyRes = false;
 GrSelfGen = false;
@@ -364,7 +373,7 @@ else
 
 if CardSelfHp = CardEnemyHp and CardSelfHp &gt; 0
 {
-    description += string(abs(script_execute(GetValueWithPM, CardSelfHp)))+ " урона всем игрокам#"; 
+    description += string(abs(script_execute(GetValueWithPM, CardSelfHp)))+ " урона#всем игрокам#"; 
 }
 else
 {

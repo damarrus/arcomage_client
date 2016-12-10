@@ -15,6 +15,8 @@
     <sprite>sprites\sp_TLion</sprite>
     <sprite>sprites\sp_Line</sprite>
     <sprite>sprites\sp_Arrow</sprite>
+    <sprite>sprites\sp_ScrollUp</sprite>
+    <sprite>sprites\sp_Scroller</sprite>
     <sprite>sprites\sp_DeckManager</sprite>
     <sprite>sprites\sp_Textbox</sprite>
     <sprite>sprites\sp_Loginbox</sprite>
@@ -23,6 +25,7 @@
     <sprite>sprites\sp_background</sprite>
     <sprite>sprites\sp_Handfield</sprite>
     <sprite>sprites\sp_LoginButtons</sprite>
+    <sprite>sprites\sp_Deck</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -67,6 +70,7 @@
       <script>scripts\RestoreSavedDeck.gml</script>
       <script>scripts\SaveDeck.gml</script>
       <script>scripts\ChooseDeck.gml</script>
+      <script>scripts\EndTurn.gml</script>
     </scripts>
     <scripts name="Systems">
       <script>scripts\CreateSuperButton.gml</script>
@@ -77,6 +81,7 @@
         <script>scripts\MultiScript.gml</script>
         <script>scripts\CreateMultiDialog.gml</script>
       </scripts>
+      <script>scripts\SetBlockerDepth.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">
@@ -93,6 +98,7 @@
     <objects name="Controllers">
       <object>objects\obj_MessageController</object>
       <object>objects\obj_GameController</object>
+      <object>objects\obj_Timer</object>
       <object>objects\obj_Hand</object>
       <object>objects\obj_TableField</object>
       <object>objects\obj_Tower</object>
@@ -115,6 +121,7 @@
         <object>objects\obj_LogPassField</object>
         <object>objects\btn_LoginBtn</object>
       </objects>
+      <object>objects\btn_EndTurn</object>
     </objects>
     <object>objects\btn_TB</object>
     <objects name="DeckManager">

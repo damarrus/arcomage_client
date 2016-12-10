@@ -9,7 +9,7 @@ with (obj_Deck)
         CardsInDeck = SavedCardsInDeck;
         btn_SaveDeck.visible = false;
         
-        for (var i = 0; i <= 14; i += 1)
+        for (var i = 0; i <= (global.MaxDeck - 1); i += 1)
         {        
             CardsID[i] = SavedCardsID[i];        
         }        

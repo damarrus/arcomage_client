@@ -2,7 +2,7 @@ with (obj_Deck)
 {
     if Active
     {
-        if CardsInDeck = 15 and btn_SaveDeck.visible = false
+        if CardsInDeck = global.MaxDeck and btn_SaveDeck.visible = false
         {
             global.DeckForGame = DeckID;                          
         }
@@ -10,7 +10,7 @@ with (obj_Deck)
         {
             ShowMiniWarn("U have unsaved changes");
         } 
-        else if CardsInDeck != 15 
+        else if CardsInDeck != global.MaxDeck 
         {
             ShowMiniWarn("Deck isnt full");
         }

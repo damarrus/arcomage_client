@@ -195,22 +195,23 @@ UpperCase = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var Login = "";
-var Password = "";
+            <string>var GotLogin = "";
+var GotPassword = "";
 if Active
 {
     with (obj_LogPassField)
     {
         if Type = "Login"
         {
-            Login = Text;
+            GotLogin = Text;
         }
         else
         {
-            Password = Text;
+            GotPassword = Text;
         }
     }
-
+    Login = GotLogin;
+    Password = GotPassword;
     script_execute(SetJSmap,"auth", "login", Login, "password", Password);
     script_execute(SendToSrv);
     Active = false;

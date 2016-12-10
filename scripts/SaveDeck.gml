@@ -6,9 +6,9 @@ with (obj_Deck)
     {
         SavedDeckName = DeckName;
         SavedCardsInDeck = CardsInDeck;
-        for (i = 0; i <= 14; i += 1)
+        for (i = 0; i <= (global.MaxDeck - 1); i += 1)
         {
-            if i < 14
+            if i < (global.MaxDeck - 1)
             {
                 CardsIds = CardsIds + string(CardsID[i]) + ",";
             }

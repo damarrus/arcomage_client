@@ -26,12 +26,18 @@
           <argument>
             <kind>1</kind>
             <string>CardID              = obj_CurrentCard.CardID;
-CardElem            = obj_CurrentCard.CardElem;
-CardCost            = obj_CurrentCard.CardCost;
+CardRes1            = obj_CurrentCard.CardRes1;
+CardRes2            = obj_CurrentCard.CardRes2;
+CardRes3            = obj_CurrentCard.CardRes3;
 CardName            = obj_CurrentCard.CardName;
 CardSelfTowerHp     = obj_CurrentCard.CardSelfTowerHp;
 CardEnemyTowerHp    = obj_CurrentCard.CardEnemyTowerHp;
-
+CardSelfWallHp      = obj_CurrentCard.CardSelfWallHp;
+CardEnemyWallHp     = obj_CurrentCard.CardEnemyWallHp;
+CardEnemyHp         = obj_CurrentCard.CardEnemyHp;
+CardSelfHp          = obj_CurrentCard.CardSelfHp;
+CardSpIndex         = 0;
+CardNmbAtHand       = 0;
 
 CardSelfRes1        = obj_CurrentCard.CardSelfRes1; 
 CardSelfRes2        = obj_CurrentCard.CardSelfRes2;
@@ -47,9 +53,94 @@ CardEnemyGen1       = obj_CurrentCard.CardEnemyGen1;
 CardEnemyGen2       = obj_CurrentCard.CardEnemyGen2;
 CardEnemyGen3       = obj_CurrentCard.CardEnemyGen3;
 
-CardSelfWallHp      = obj_CurrentCard.CardSelfWallHp;
-CardEnemyWallHp     = obj_CurrentCard.CardEnemyWallHp;
 
+
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="7">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if depth &gt; obj_Blocker.depth {exit;}
+
+var TempCardSpIndex = CardSpIndex;
+var TempID = real(CardID);
+
+with (obj_Deck)
+{
+    if Active //Находим активную колоду
+    {    
+        //Убираем карту из колоды
+        CardsInDeck -=1;
+        var move = false; 
+        for (i = 0; i &lt;= (global.MaxDeck - 1); i +=1)
+        {
+            
+            if move
+            {
+                CardsID[i-1] = CardsID[i];
+                CardsID[i] = 0;
+            }
+            
+            if CardsID[i] = TempID
+            {
+                CardsID[i] = 0;
+                move = true;    
+            }
+            
+        } 
+        btn_SaveDeck.visible = true;
+        script_execute(CreateCardListFromDeck);
+        script_execute(SetCardInDeckVision);
+   
+    }
+}
+
+
+//Записываем выбранную карту в текущую
+obj_DeckManager.CardName = CardName; 
+obj_DeckManager.CardID = CardID;
+obj_DeckManager.CardRes1 = CardRes1;
+obj_DeckManager.CardRes2 = CardRes2;
+obj_DeckManager.CardRes3 = CardRes3;
+obj_DeckManager.CardSelfTowerHp = CardSelfTowerHp;
+obj_DeckManager.CardEnemyTowerHp = CardEnemyTowerHp;
+obj_DeckManager.CardNmbAtHand = CardNmbAtHand;
+
+obj_DeckManager.CardSelfRes1 = CardSelfRes1; 
+obj_DeckManager.CardSelfRes2 = CardSelfRes2;
+obj_DeckManager.CardSelfRes3 = CardSelfRes3;
+obj_DeckManager.CardSelfGen1 = CardSelfGen1;
+obj_DeckManager.CardSelfGen2 = CardSelfGen2;
+obj_DeckManager.CardSelfGen3 = CardSelfGen3;
+
+obj_DeckManager.CardEnemyRes1 = CardEnemyRes1; 
+obj_DeckManager.CardEnemyRes2 = CardEnemyRes2;
+obj_DeckManager.CardEnemyRes3 = CardEnemyRes3;
+obj_DeckManager.CardEnemyGen1 = CardEnemyGen1;
+obj_DeckManager.CardEnemyGen2 = CardEnemyGen2;
+obj_DeckManager.CardEnemyGen3 = CardEnemyGen3;
+
+obj_DeckManager.CardSelfWallHp = CardSelfWallHp;
+obj_DeckManager.CardEnemyWallHp = CardEnemyWallHp;
 
 
 </string>
@@ -74,13 +165,14 @@ CardEnemyWallHp     = obj_CurrentCard.CardEnemyWallHp;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite(sp_Search,0, x, y);
+            <string>draw_sprite_ext(sp_Search,0, x, y, 1, 0.5, 0, c_white,1);
 draw_set_font(font1);
 draw_set_halign(fa_center);
 CardNameText = string_replace(CardName, " ", "#");
 CardNameText = string_replace(CardNameText, "(newcard)", "");
-draw_text(x, y, CardNameText);
-
+CardNameText = string_delete(CardNameText, 7, 50);
+draw_text(x - 20, y - 10, CardNameText);
+draw_text(x + 70, y - 10, string(CardRes1) + " " + string(CardRes2) + " " + string(CardRes3));
 
 
 

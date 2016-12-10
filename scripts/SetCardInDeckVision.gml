@@ -5,7 +5,7 @@ with (obj_Deck) //Находим колоду, которая в данный м
     if Active
     {
         DeckFounded = true;
-        for (var i = 0; i <=14; i = i + 1)
+        for (var i = 0; i <=(global.MaxDeck - 1); i = i + 1)
         { 
             obj_DeckManager.TempCardsID[i] = CardsID[i];    
         } 
@@ -18,7 +18,7 @@ if DeckFounded
     with (obj_CardOnPage) //Ищем карту в найденной активной колоде
     {
         
-        for (i = 0; i <=14; i = i + 1)
+        for (i = 0; i <=(global.MaxDeck - 1); i = i + 1)
         {
             YetInDeck = false;
             //show_message(string(CardID) + " " + string(obj_DeckManager.TempCardsID[i])); 

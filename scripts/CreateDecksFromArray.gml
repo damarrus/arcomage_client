@@ -16,7 +16,7 @@ for (var i = 0; i < DecksCount; i += 1)  //Начинаем перебирать
     } 
     instance_create(obj_DeckManager.DecksListX, obj_DeckManager.DecksListY + (obj_DeckManager.DecksListYDist + sprite_get_height(sp_Search)) * i, obj_Deck); 
     
-    for (var j = 0; j <= 14; j += 1)
+    for (var j = 0; j <= (global.MaxDeck - 1); j += 1)
     {
         obj_DeckManager.CurrentDeckCards[j] = 0;   
     }

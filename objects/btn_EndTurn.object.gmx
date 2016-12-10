@@ -3,7 +3,7 @@
   <spriteName>sp_LoginButtons</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-51</depth>
+  <depth>-1</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -26,76 +26,6 @@
           <argument>
             <kind>1</kind>
             <string>image_speed = 0;
-if obj_Loginbox.FieldType = "Accept"
-{
-    image_index = 2;
-    Type = 0;
-}
-else
-{
-    image_index = 0;
-    Type = 1;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="6" enumb="11">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if Type = 0
-{
-    image_index = 2;
-}
-else
-{
-    image_index = 0;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="6" enumb="10">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if Type = 0
-{
-    image_index = 3;
-}
-else
-{
-    image_index = 1;
-}
 </string>
           </argument>
         </arguments>
@@ -118,36 +48,14 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if obj_Loginbox.Active
+            <string>if obj_GameController.IsItMyTime
 {
-    if Type = 0
+    with obj_Timer
     {
-        var Login = "";
-        var Password = "";
-
-        with (obj_LogPassField)
-        {
-            if Type = "Login"
-            {
-                Login = Text;
-            }
-            else
-            {
-                Password = Text;
-            }
-        }
-        
-        obj_Loginbox.Login = Login;
-        obj_Loginbox.Password = Password;
-        script_execute(SetJSmap,"auth", "login", Login, "password", Password);
-        script_execute(SendToSrv);
-        obj_Loginbox.Active = false;
-        
+        Freeze = true;
     }
-    else
-    {
-        game_end();    
-    }
+    script_execute(EndTurn);
+    
 }
 </string>
           </argument>

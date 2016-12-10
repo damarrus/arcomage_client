@@ -19,13 +19,22 @@ if Message = "getCardRandom" //если это рандомная карта, т
 else if Message = "auth" //Авторизуемся
 {
     
-    if instance_exists(btn_UnAuth) //Не понимаю зачем
+    
+    //Если авторизация прошла успешно
+    if ds_map_find_value(global.JSmap, "valid") 
     {
-    btn_UnAuth.Visible = true;
-    }
-
-    if ds_map_find_value(global.JSmap, "valid") //Если авторизация прошла успешно
-    {
+        //Сохраняем логин в настройках
+        ini_open("Settings.ini");
+        ini_write_string("LoginBox", "LastLogin", string(obj_Loginbox.Login));
+        ini_close();
+        
+        //Если авторизовались - делаем кнопку разовтаризации видимой
+        if instance_exists(btn_UnAuth) 
+        {
+            btn_UnAuth.Visible = true;
+        }
+        
+        //Записываем логин, ник в глобальные, закрываем логинбокс, переходим в комнату меню/обновляем ее
         global.PLogin = obj_Loginbox.Login;
         global.PlayerName = ds_map_find_value(global.JSmap, "player_name"); 
         obj_Loginbox.Done = true;
@@ -56,7 +65,8 @@ else if Message = "unAuth" //разавторизуемся
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 else if Message = "getCardOpponent" //получаем ход мой/не мой
-{
+{  
+
     script_execute(GetCardFromDBbyID, ds_map_find_value(global.JSmap, "card_id"));
     script_execute(SetCurrCard, false, false);    
     script_execute(CreateCardAtField);
@@ -68,6 +78,13 @@ else if Message = "getCardOpponent" //получаем ход мой/не мой
 
 else if Message = "playerStatus" 
 {
+    
+    with obj_Timer
+    {
+        Seconds = 45;
+        Freeze = false;
+        alarm_set(0, room_speed);        
+    }     
     script_execute(SetStatsAfterTurn, true);
     script_execute(SetCardVision);
 }
@@ -77,9 +94,9 @@ else if Message = "playerStatus"
 
 else if Message = "opponentStatus" 
 { 
-        script_execute(SetStatsAfterTurn, false);
-        script_execute(CheckWin);
-        script_execute(SetCardVision);
+    script_execute(SetStatsAfterTurn, false);
+    script_execute(CheckWin);
+    script_execute(SetCardVision);
 }
 
 //opponentStatus

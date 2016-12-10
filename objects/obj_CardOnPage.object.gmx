@@ -32,13 +32,21 @@
 
 CardSpIndex = 0;
 CardID              = obj_CurrentCard.CardID;
-CardElem            = obj_CurrentCard.CardElem;
-CardCost            = obj_CurrentCard.CardCost;
+CardRes1            = obj_CurrentCard.CardRes1;
+CardRes2            = obj_CurrentCard.CardRes2;
+CardRes3            = obj_CurrentCard.CardRes3;
 CardName            = obj_CurrentCard.CardName;
-CardSelfTowerHp     = obj_CurrentCard.CardSelfTowerHp;
-CardEnemyTowerHp    = obj_CurrentCard.CardEnemyTowerHp;
 CardNmbAtHand       = obj_CurrentCard.CardNmbAtHand;
 AtHand              = obj_CurrentCard.AtHand;
+Discarded           = obj_CurrentCard.Discarded;
+
+CardSelfTowerHp     = obj_CurrentCard.CardSelfTowerHp;
+CardEnemyTowerHp    = obj_CurrentCard.CardEnemyTowerHp;
+CardSelfWallHp      = obj_CurrentCard.CardSelfWallHp;
+CardEnemyWallHp     = obj_CurrentCard.CardEnemyWallHp;
+CardSelfHp          = obj_CurrentCard.CardSelfHp;
+CardEnemyHp         = obj_CurrentCard.CardEnemyHp;
+
 
 CardSelfRes1        = obj_CurrentCard.CardSelfRes1; 
 CardSelfRes2        = obj_CurrentCard.CardSelfRes2;
@@ -54,8 +62,6 @@ CardEnemyGen1       = obj_CurrentCard.CardEnemyGen1;
 CardEnemyGen2       = obj_CurrentCard.CardEnemyGen2;
 CardEnemyGen3       = obj_CurrentCard.CardEnemyGen3;
 
-CardSelfWallHp      = obj_CurrentCard.CardSelfWallHp;
-CardEnemyWallHp     = obj_CurrentCard.CardEnemyWallHp;
 
 
 
@@ -94,14 +100,14 @@ with (obj_Deck)
     
         if TempCardSpIndex = 0 //Добавляем карту в колоду
         {
-            if CardsInDeck = 15
+            if CardsInDeck = global.MaxDeck
             {
                 script_execute(ShowMiniWarn, "Deck is full");
             }
             else
             {
                 CardsInDeck +=1;
-                for (var i = 0; i &lt;= 14; i +=1)
+                for (var i = 0; i &lt;= (global.MaxDeck - 1); i +=1)
                 {
                     
                     if CardsID[i] = 0
@@ -121,7 +127,7 @@ with (obj_Deck)
         {
             CardsInDeck -=1;
             var move = false; 
-            for (i = 0; i &lt;= 14; i +=1)
+            for (i = 0; i &lt;= (global.MaxDeck - 1); i +=1)
             {
                 
                 if move
@@ -153,8 +159,9 @@ with (obj_Deck)
 //Записываем выбранную карту в текущую
 obj_DeckManager.CardName = CardName; 
 obj_DeckManager.CardID = CardID;
-obj_DeckManager.CardCost = CardCost;
-obj_DeckManager.CardElem = CardElem;
+obj_DeckManager.CardRes1 = CardRes1;
+obj_DeckManager.CardRes2 = CardRes2;
+obj_DeckManager.CardRes3 = CardRes3;
 obj_DeckManager.CardSelfTowerHp = CardSelfTowerHp;
 obj_DeckManager.CardEnemyTowerHp = CardEnemyTowerHp;
 obj_DeckManager.CardNmbAtHand = CardNmbAtHand;
@@ -200,26 +207,30 @@ obj_DeckManager.CardEnemyWallHp = CardEnemyWallHp;
           <argument>
             <kind>1</kind>
             <string>draw_sprite(sp_Card,CardSpIndex, x, y);
+draw_set_colour(c_yellow);
 draw_set_font(font1);
 draw_set_halign(fa_center);
 CardNameText = string_replace(CardName, " ", "#");
-CardNameText = string_replace(CardNameText, "(newcard)", "");
-draw_text(x, y - 60, CardNameText);
-draw_text(x - 70, y + 80, CardSelfTowerHp);
-draw_text(x + 70, y + 80, CardEnemyTowerHp);
+CardNameText = string_replace(CardNameText, "(newcard)", ""); 
+draw_text(x, y + 40, CardNameText);
 
 description = ""; 
-TextCost = "";
-
-switch (CardElem)
-{
-  case 1: TextCost = "1: " + string(CardCost); break;
-  case 2: TextCost = "2: " + string(CardCost); break;
-  case 3: TextCost = "3: " + string(CardCost); break;
-}
-description += TextCost + "#";
+draw_set_colour(c_white);
+draw_text(x, y - 135, string(CardRes1) + "  " + string(CardRes2) + "  " + string(CardRes3));
 
 //Формирование описалова
+draw_set_colour(c_black);
+if CardSelfTowerHp = CardEnemyTowerHp and CardSelfTowerHp &lt;&gt; 0
+{
+    description += script_execute(GetValueWithPM, CardSelfTowerHp) + " к башням#всех игроков#"    
+}
+else
+{
+    if CardSelfTowerHp &lt;&gt; 0 {description += script_execute(GetValueWithPM, CardSelfTowerHp) + " к башне#";}  
+    if CardEnemyTowerHp &lt;&gt; 0 {description += script_execute(GetValueWithPM, CardEnemyTowerHp) + " к башне врага#";}    
+}
+
+
 GrSelfRes = false;
 GrEnemyRes = false;
 GrSelfGen = false;
@@ -238,24 +249,24 @@ if  CardSelfRes1 &lt;&gt; 0 or CardEnemyRes1 &lt;&gt; 0
         GrSelfRes = true;
         GrEnemyRes = true;
         
-    }
- 
-    if  CardSelfRes1 = CardSelfRes2 
-        and CardSelfRes1 = CardSelfRes3
-        and (CardSelfRes1 &lt;&gt; CardEnemyRes1 or CardSelfRes1 &lt;&gt; CardEnemyRes2 or CardSelfRes1 &lt;&gt; CardEnemyRes3)
-        and CardSelfRes1 &lt;&gt; 0
-    {    
-        description += script_execute(GetValueWithPM, CardSelfRes1) + " к ресурсам#"
-        GrSelfRes = true;
-    }
-    
-    if  CardEnemyRes1 = CardEnemyRes2 
-        and CardEnemyRes1 = CardEnemyRes3
-        and (CardEnemyRes1 &lt;&gt; CardSelfRes1 or CardEnemyRes1 &lt;&gt; CardSelfRes2 or CardEnemyRes1 &lt;&gt; CardSelfRes3)
-        and CardEnemyRes1 &lt;&gt; 0
-    {    
-        description += script_execute(GetValueWithPM, CardEnemyRes1) + " к ресурсам#врага#"
-        GrEnemyRes = true;
+    } 
+    else
+    { 
+        if  CardSelfRes1 = CardSelfRes2 
+            and CardSelfRes1 = CardSelfRes3
+            and CardSelfRes1 &lt;&gt; 0
+        {    
+            description += script_execute(GetValueWithPM, CardSelfRes1) + " к ресурсам#"
+            GrSelfRes = true;
+        }
+        
+        if  CardEnemyRes1 = CardEnemyRes2 
+            and CardEnemyRes1 = CardEnemyRes3
+            and CardEnemyRes1 &lt;&gt; 0
+        {    
+            description += script_execute(GetValueWithPM, CardEnemyRes1) + " к ресурсам#врага#"
+            GrEnemyRes = true;
+        }
     }
     
 } 
@@ -289,25 +300,24 @@ if  CardSelfGen1 &lt;&gt; 0 or CardEnemyGen1 &lt;&gt; 0
         GrEnemyGen = true;
         
     }
- 
-    if  CardSelfGen1 = CardSelfGen2 
-        and CardSelfGen1 = CardSelfGen3
-        and (CardSelfGen1 &lt;&gt; CardEnemyGen1 or CardSelfGen1 &lt;&gt; CardEnemyGen2 or CardSelfGen1 &lt;&gt; CardEnemyGen3)
-        and CardSelfGen1 &lt;&gt; 0
-    {    
-        description += script_execute(GetValueWithPM, CardSelfGen1) + " к приросту#"
-        GrSelfGen = true;
+    else
+    {  
+        if  CardSelfGen1 = CardSelfGen2 
+            and CardSelfGen1 = CardSelfGen3
+            and CardSelfGen1 &lt;&gt; 0
+        {    
+            description += script_execute(GetValueWithPM, CardSelfGen1) + " к приросту#"
+            GrSelfGen = true;
+        }
+        
+        if  CardEnemyGen1 = CardEnemyGen2 
+            and CardEnemyGen1 = CardEnemyGen3
+            and CardEnemyGen1 &lt;&gt; 0
+        {    
+            description += script_execute(GetValueWithPM, CardEnemyGen1) + " к приросту#врага#"
+            GrEnemyGen = true;
+        }
     }
-    
-    if  CardEnemyGen1 = CardEnemyGen2 
-        and CardEnemyGen1 = CardEnemyGen3
-        and (CardEnemyGen1 &lt;&gt; CardSelfGen1 or CardEnemyGen1 &lt;&gt; CardSelfGen2 or CardEnemyGen1 &lt;&gt; CardSelfGen3)
-        and CardEnemyGen1 &lt;&gt; 0
-    {    
-        description += script_execute(GetValueWithPM, CardEnemyGen1) + " к приросту#врага#"
-        GrEnemyGen = true;
-    }
-    
 } 
 
 if !GrSelfGen
@@ -330,12 +340,23 @@ if CardSelfWallHp = CardEnemyWallHp and CardSelfWallHp &lt;&gt; 0
 }
 else
 {
-    if CardSelfWallHp &lt;&gt; 0 {description += script_execute(GetValueWithPM, CardSelfWallHp)+ " к стене#"}
-    if CardEnemyWallHp &lt;&gt; 0 {description += script_execute(GetValueWithPM, CardEnemyWallHp) + " к стене врага#"}
+    if CardSelfWallHp &lt;&gt; 0 {description += script_execute(GetValueWithPM, CardSelfWallHp)+ " к стене#";}
+    if CardEnemyWallHp &lt;&gt; 0 {description += script_execute(GetValueWithPM, CardEnemyWallHp) + " к стене врага#";}
+}
+
+if CardSelfHp = CardEnemyHp and CardSelfHp &gt; 0
+{
+    description += string(abs(script_execute(GetValueWithPM, CardSelfHp)))+ " урона всем игрокам#"; 
+}
+else
+{
+    if CardSelfHp   &lt;&gt; 0 {description += string(abs(script_execute(GetValueWithPM, CardSelfHp))) + " урона себе#";}
+    if CardEnemyHp  &lt;&gt; 0 {description += string(abs(script_execute(GetValueWithPM, CardEnemyHp))) + " урона#";}    
 }
 
 draw_set_font(font2);
-draw_text(x, y, description);
+draw_set_colour(c_black);
+draw_text(x, y + 90, description);
 
 
 

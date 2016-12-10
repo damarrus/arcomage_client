@@ -9,7 +9,7 @@ with (obj_Deck) //Перебираем все колоды
     if Active   //Находим активную колоду
     {
     
-        for (var i = 0; i <= 14; i += 1)    //Для каждой карты
+        for (var i = 0; i <= (global.MaxDeck - 1); i += 1)    //Для каждой карты
         {
             var CardDB = file_text_open_read("CardDB.adbf");
             var FileString, SubStr;
