@@ -32,13 +32,21 @@
 
 CardSpIndex = 0;
 CardID              = obj_CurrentCard.CardID;
-CardElem            = obj_CurrentCard.CardElem;
-CardCost            = obj_CurrentCard.CardCost;
+CardRes1            = obj_CurrentCard.CardRes1;
+CardRes2            = obj_CurrentCard.CardRes2;
+CardRes3            = obj_CurrentCard.CardRes3;
 CardName            = obj_CurrentCard.CardName;
-CardSelfTowerHp     = obj_CurrentCard.CardSelfTowerHp;
-CardEnemyTowerHp    = obj_CurrentCard.CardEnemyTowerHp;
 CardNmbAtHand       = obj_CurrentCard.CardNmbAtHand;
 AtHand              = obj_CurrentCard.AtHand;
+Discarded           = obj_CurrentCard.Discarded;
+
+CardSelfTowerHp     = obj_CurrentCard.CardSelfTowerHp;
+CardEnemyTowerHp    = obj_CurrentCard.CardEnemyTowerHp;
+CardSelfWallHp      = obj_CurrentCard.CardSelfWallHp;
+CardEnemyWallHp     = obj_CurrentCard.CardEnemyWallHp;
+CardSelfHp          = obj_CurrentCard.CardSelfHp;
+CardEnemyHp         = obj_CurrentCard.CardEnemyHp;
+
 
 CardSelfRes1        = obj_CurrentCard.CardSelfRes1; 
 CardSelfRes2        = obj_CurrentCard.CardSelfRes2;
@@ -54,26 +62,20 @@ CardEnemyGen1       = obj_CurrentCard.CardEnemyGen1;
 CardEnemyGen2       = obj_CurrentCard.CardEnemyGen2;
 CardEnemyGen3       = obj_CurrentCard.CardEnemyGen3;
 
-CardSelfWallHp      = obj_CurrentCard.CardSelfWallHp;
-CardEnemyWallHp     = obj_CurrentCard.CardEnemyWallHp;
-ResourceStorage = 0;
-switch CardElem
-{
-    case 1: ResourceStorage = obj_GameController.SelfRes1; break; 
-    case 2: ResourceStorage = obj_GameController.SelfRes2; break; 
-    case 3: ResourceStorage = obj_GameController.SelfRes3; break;  
-}
-    
+ResourceStorage1    = obj_GameController.SelfRes1;
+ResourceStorage2    = obj_GameController.SelfRes2;
+ResourceStorage3    = obj_GameController.SelfRes3;
 
-if AtHand and CardCost &gt; ResourceStorage
+if (AtHand and (CardRes1 &gt; ResourceStorage1 or CardRes2 &gt; ResourceStorage2 or CardRes3 &gt; ResourceStorage3)) or Discarded 
 {        
     CardSpIndex = 1;    
 }
-
-if AtHand and CardCost &lt;= ResourceStorage
+else if AtHand 
 {     
     CardSpIndex = 0;       
 }
+
+
 
 
 </string>
@@ -113,6 +115,8 @@ y = obj_TableField.y;
 AtHand = false;
 Usable = false;
 
+//Устанавливаем серый спрайт
+CardSpIndex = 1; 
 //Сдвигаем руку влево
 script_execute(MoveHandLeft, CardNmbAtHand);
 
@@ -144,26 +148,30 @@ obj_GameController.IsItMyTime = false;
             <kind>1</kind>
             <string>if depth &gt; obj_Blocker.depth {exit;}
 
-switch CardElem
-{
-    case 1: ResourceStorage = obj_GameController.SelfRes1; break; 
-    case 2: ResourceStorage = obj_GameController.SelfRes2; break; 
-    case 3: ResourceStorage = obj_GameController.SelfRes3; break;  
-}
+var ResourceStorage1 = obj_GameController.SelfRes1,
+    ResourceStorage2 = obj_GameController.SelfRes2,
+    ResourceStorage3 = obj_GameController.SelfRes3;  
     
 
-if obj_GameController.IsItMyTime and AtHand and CardCost &lt;= ResourceStorage
+if obj_GameController.IsItMyTime and AtHand and (CardRes1 &lt;= ResourceStorage1 and CardRes2 &lt;= ResourceStorage2 and CardRes3 &lt;= ResourceStorage3) 
 {
 script_execute(DeleteCardsField); //Удаляем карты с центра поля (использованые карты)
 
 //Записываем выбранную карту в текущую
-obj_CurrentCard.CardName = CardName; 
-obj_CurrentCard.CardID = CardID;
-obj_CurrentCard.CardCost = CardCost;
-obj_CurrentCard.CardElem = CardElem;
-obj_CurrentCard.CardSelfTowerHp = CardSelfTowerHp;
-obj_CurrentCard.CardEnemyTowerHp = CardEnemyTowerHp;
-obj_CurrentCard.CardNmbAtHand = CardNmbAtHand;
+obj_CurrentCard.CardName            = CardName; 
+obj_CurrentCard.CardID              = CardID;
+obj_CurrentCard.CardRes1            = CardRes1;
+obj_CurrentCard.CardRes2            = CardRes2;
+obj_CurrentCard.CardRes3            = CardRes3;
+
+obj_CurrentCard.CardSelfTowerHp     = CardSelfTowerHp;
+obj_CurrentCard.CardEnemyTowerHp    = CardEnemyTowerHp;
+obj_CurrentCard.CardSelfWallHp      = CardSelfWallHp;
+obj_CurrentCard.CardEnemyWallHp     = CardEnemyWallHp;
+obj_CurrentCard.CardSelfHp          = CardSelfHp;
+obj_CurrentCard.CardEnemyHp         = CardEnemyHp;
+
+obj_CurrentCard.CardNmbAtHand       = CardNmbAtHand;
 
 obj_CurrentCard.CardSelfRes1 = CardSelfRes1; 
 obj_CurrentCard.CardSelfRes2 = CardSelfRes2;
@@ -179,8 +187,7 @@ obj_CurrentCard.CardEnemyGen1 = CardEnemyGen1;
 obj_CurrentCard.CardEnemyGen2 = CardEnemyGen2;
 obj_CurrentCard.CardEnemyGen3 = CardEnemyGen3;
 
-obj_CurrentCard.CardSelfWallHp = CardSelfWallHp;
-obj_CurrentCard.CardEnemyWallHp = CardEnemyWallHp;
+
 
 
 //Говорим серверу, что отправили туда определенную карту ID
@@ -233,17 +240,13 @@ draw_text(x, y + 40, CardNameText);
 draw_set_colour(c_black);
 draw_text(x - 60, y + 80, CardSelfTowerHp);
 draw_text(x + 60, y + 80, CardEnemyTowerHp);
-draw_set_colour(c_yellow);
+draw_set_colour(c_white);
 description = ""; 
 TextCost = "";
 
-switch (CardElem)
-{
-  case 1: TextCost = "1: " + string(CardCost); break;
-  case 2: TextCost = "2: " + string(CardCost); break;
-  case 3: TextCost = "3: " + string(CardCost); break;
-}
-draw_text(x, y - 135, TextCost);
+draw_text(x, y - 135, string(CardRes1) + "  " + string(CardRes2) + "  " + string(CardRes3));
+
+draw_set_colour(c_yellow);
 
 //Формирование описалова
 GrSelfRes = false;
@@ -357,6 +360,16 @@ else
 {
     if CardSelfWallHp &lt;&gt; 0 {description += script_execute(GetValueWithPM, CardSelfWallHp)+ " к стене#";}
     if CardEnemyWallHp &lt;&gt; 0 {description += script_execute(GetValueWithPM, CardEnemyWallHp) + " к стене врага#";}
+}
+
+if CardSelfHp = CardEnemyHp and CardSelfHp &gt; 0
+{
+    description += string(abs(script_execute(GetValueWithPM, CardSelfHp)))+ " урона всем игрокам#"; 
+}
+else
+{
+    if CardSelfHp   &lt;&gt; 0 {description += string(abs(script_execute(GetValueWithPM, CardSelfHp))) + " урона себе#";}
+    if CardEnemyHp  &lt;&gt; 0 {description += string(abs(script_execute(GetValueWithPM, CardEnemyHp))) + " урона#";}    
 }
 
 draw_set_font(font2);

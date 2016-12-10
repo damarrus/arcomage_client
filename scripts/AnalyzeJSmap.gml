@@ -7,7 +7,7 @@ var Message = ds_map_find_value(global.JSmap, "messageType"); //Определя
 if Message = "getCardRandom" //если это рандомная карта, то заполняем currentCard и создаем карту на поле
 {
     script_execute(GetCardFromDBbyID, ds_map_find_value(global.JSmap, "card_id"));
-    script_execute(SetCurrCard, true);  
+    script_execute(SetCurrCard, true, false);  
     script_execute(CreateCardAtHand);
     
 }
@@ -58,7 +58,7 @@ else if Message = "unAuth" //разавторизуемся
 else if Message = "getCardOpponent" //получаем ход мой/не мой
 {
     script_execute(GetCardFromDBbyID, ds_map_find_value(global.JSmap, "card_id"));
-    script_execute(SetCurrCard, false);    
+    script_execute(SetCurrCard, false, false);    
     script_execute(CreateCardAtField);
     
 }

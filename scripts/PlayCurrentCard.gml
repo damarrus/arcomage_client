@@ -1,11 +1,9 @@
 if obj_GameController.IsItMyTime = true
 {
-    switch obj_CurrentCard.CardElem
-    {
-    case 1: obj_GameController.SelfRes1 -= obj_CurrentCard.CardCost; break; 
-    case 2: obj_GameController.SelfRes2 -= obj_CurrentCard.CardCost; break; 
-    case 3: obj_GameController.SelfRes3 -= obj_CurrentCard.CardCost; break;  
-    }
+   
+    obj_GameController.SelfRes1 -= obj_CurrentCard.CardRes1;  
+    obj_GameController.SelfRes2 -= obj_CurrentCard.CardRes2;  
+    obj_GameController.SelfRes3 -= obj_CurrentCard.CardRes3;  
     
     //Обрабатываем свои ресурсы/генеры
     obj_GameController.SelfGen1 += obj_CurrentCard.CardSelfGen1;
@@ -49,24 +47,33 @@ if obj_GameController.IsItMyTime = true
     if obj_GameController.EnemyRes3 < 0 {obj_GameController.EnemyRes3 = 0};
       
     //Обрабатываем тавера и стены
-    
-    obj_GameController.THealth += obj_CurrentCard.CardSelfTowerHp;        
+    //УРОН ТОЛЬКО ПО СТЕНЕ            
     obj_GameController.SelfWallHp += obj_CurrentCard.CardSelfWallHp;
-    if obj_GameController.SelfWallHp < 0 
+    if obj_GameController.SelfWallHp < 0 {obj_GameController.SelfWallHp = 0;} //Если стена стала меньше нуля - то приравниваем к нулю
+    //УРОН ТОЛЬКО ПО БАШНЕ 
+    obj_GameController.THealth += obj_CurrentCard.CardSelfTowerHp;
+    //СМЕШАННЫЙ УРОН
+    obj_GameController.SelfWallHp += obj_CurrentCard.CardSelfHp;
+    if obj_GameController.SelfWallHp < 0
     {
         obj_GameController.THealth += obj_GameController.SelfWallHp;
-        obj_GameController.SelfWallHp = 0;
-        if obj_GameController.THealth < 0 {obj_GameController.THealth = 0};
+        obj_GameController.SelfWallHp   = 0;      
     }
     
-    obj_GameController.EHealth += obj_CurrentCard.CardEnemyTowerHp; 
+    //УРОН ТОЛЬКО ПО СТЕНЕ            
     obj_GameController.EnemyWallHp += obj_CurrentCard.CardEnemyWallHp;
-    if obj_GameController.EnemyWallHp < 0 
+    if obj_GameController.EnemyWallHp < 0 {obj_GameController.EnemyWallHp = 0;} //Если стена стала меньше нуля - то приравниваем к нулю
+    //УРОН ТОЛЬКО ПО БАШНЕ 
+    obj_GameController.EHealth += obj_CurrentCard.CardEnemyTowerHp;
+    //СМЕШАННЫЙ УРОН
+    obj_GameController.EnemyWallHp += obj_CurrentCard.CardEnemyHp;
+    if obj_GameController.EnemyWallHp < 0
     {
-        obj_GameController.THealth += obj_GameController.EnemyWallHp;
-        obj_GameController.EnemyWallHp = 0;
-        if obj_GameController.EHealth < 0 {obj_GameController.EHealth = 0};
+        obj_GameController.EHealth += obj_GameController.EnemyWallHp;
+        obj_GameController.EnemyWallHp   = 0;      
     }
+    
+    
 
 }
 
