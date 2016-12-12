@@ -1,10 +1,9 @@
-with (obj_Card)
+with (obj_CardVision)
 {
-
-    if AtHand = false
-    {
-        instance_destroy();
-    }
-
+    instance_destroy();
 }
+
+obj_GameController.PlayedCards = 0;
+obj_GameController.PlayedCardDepth = -1;
+obj_GameController.PlayedCardsCount = 0;
 

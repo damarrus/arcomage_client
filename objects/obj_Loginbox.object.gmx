@@ -28,7 +28,7 @@
             <string>Done = false;
 Active = true;
 Login = "";
-obj_Blocker.depth = -49;
+script_execute(SetBlockerDepth);
 
 FieldType = "Login";
 instance_create(x, y - 80, obj_LogPassField);

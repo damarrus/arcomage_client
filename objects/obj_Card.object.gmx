@@ -29,8 +29,14 @@
 //CardID          = obj_CurrentCard.CardCost;
 //CardDamage      = obj_CurrentCard.CardDamage;
 //CardNmbAtHand   = obj_CurrentCard.CardNmbAtHand;
+Moving              = false;
+MoveSpeedX          = 0;
+MoveSpeedY          = 0;
 
-CardSpIndex = 0;
+DestinationX        = x;
+DestinationY        = y;
+ 
+CardSpIndex         = 0;
 CardID              = obj_CurrentCard.CardID;
 CardRes1            = obj_CurrentCard.CardRes1;
 CardRes2            = obj_CurrentCard.CardRes2;
@@ -39,6 +45,7 @@ CardName            = obj_CurrentCard.CardName;
 CardNmbAtHand       = obj_CurrentCard.CardNmbAtHand;
 AtHand              = obj_CurrentCard.AtHand;
 Discarded           = obj_CurrentCard.Discarded;
+PlayAgain           = obj_CurrentCard.PlayAgain; 
 
 CardSelfTowerHp     = obj_CurrentCard.CardSelfTowerHp;
 CardEnemyTowerHp    = obj_CurrentCard.CardEnemyTowerHp;
@@ -66,7 +73,7 @@ ResourceStorage1    = obj_GameController.SelfRes1;
 ResourceStorage2    = obj_GameController.SelfRes2;
 ResourceStorage3    = obj_GameController.SelfRes3;
 
-if (AtHand and (CardRes1 &gt; ResourceStorage1 or CardRes2 &gt; ResourceStorage2 or CardRes3 &gt; ResourceStorage3)) or Discarded 
+if (AtHand and (CardRes1 &gt; ResourceStorage1 or CardRes2 &gt; ResourceStorage2 or CardRes3 &gt; ResourceStorage3)) or (!AtHand and Discarded) 
 {        
     CardSpIndex = 1;    
 }
@@ -78,6 +85,90 @@ else if AtHand
 
 
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if CardSpIndex = 1
+{
+    script_execute(AddCardToPlayed, CardID, true);    
+    script_execute(ShowPlayedCards);
+}
+else
+{
+    script_execute(AddCardToPlayed, CardID, false);    
+    script_execute(ShowPlayedCards);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if Moving
+{
+    
+    x += MoveSpeedX;
+    y += MoveSpeedY;    
+    
+    
+    if abs(DestinationX - x) &lt; abs(MoveSpeedX)
+    {
+        MoveSpeedX = (DestinationX - x);   
+    }
+    if abs(DestinationY - y) &lt; abs(MoveSpeedY)
+    {
+        MoveSpeedY = (DestinationY - y);   
+    }
+    
+    if (abs(DestinationX - x) &lt; 1) and (abs(DestinationY - y) &lt; 1) and !AtHand
+    {
+        instance_destroy();    
+    }
+    else if (abs(DestinationX - x) &lt; 1) and (abs(DestinationY - y) &lt; 1)
+    {
+        x = DestinationX;
+        y = DestinationY;
+        Moving = false;
+        MoveSpeedX = 0;
+        MoveSpeedY = 0;
+    }
+    
+}
 </string>
           </argument>
         </arguments>
@@ -103,26 +194,36 @@ else if AtHand
             <string>//событие discard
 if obj_GameController.IsItMyTime and AtHand 
 {
-script_execute(DeleteCardsField); //Удаляем карты с центра поля (использованые карты)
 
-//Говорим серверу, что отправили туда определенную карту ID
-script_execute(SetJSmap, "useCard", "card_id", CardID, "discard", true);
-script_execute(SendToSrv);
+    if obj_GameController.NewTurn
+    {
+        script_execute(DeleteCardsField); //Удаляем карты с центра поля (использованые карты)
+        obj_GameController.NewTurn = false;
+    }
     
-//Переносим карту в центр поля, убираем из руки, делаем неактивной
-x = obj_TableField.x - 200;
-y = obj_TableField.y;
-AtHand = false;
-Usable = false;
+    //Говорим серверу, что отправили туда определенную карту ID
+    script_execute(SetJSmap, "useCard", "card_id", CardID, "discard", true);
+    script_execute(SendToSrv);
+        
+    //Переносим карту в центр поля, убираем из руки, делаем неактивной
+    DestinationX    = obj_TableField.x + obj_GameController.PlayedCardsCount * 10;
+    DestinationY    = obj_TableField.y + obj_GameController.PlayedCardsCount * 10;
+    Moving          = true;
+    MoveSpeedX      = (DestinationX - x) / 8; 
+    MoveSpeedY      = (DestinationY - y) / 8;
+    depth           = -2 - obj_GameController.PlayedCardsCount;
+    
+    AtHand = false;
+    Usable = false;
+    
+    //Устанавливаем серый спрайт
+    CardSpIndex = 1; 
+    //Сдвигаем руку влево
+    script_execute(MoveHandLeft, CardNmbAtHand);
 
-//Устанавливаем серый спрайт
-CardSpIndex = 1; 
-//Сдвигаем руку влево
-script_execute(MoveHandLeft, CardNmbAtHand);
-
-
-obj_GameController.IsItMyTime = false;
-//script_execute(GetTurn);
+    obj_GameController.IsItMyTime = false;
+    obj_Timer.Freeze = true;
+    
 }
 </string>
           </argument>
@@ -155,58 +256,74 @@ var ResourceStorage1 = obj_GameController.SelfRes1,
 
 if obj_GameController.IsItMyTime and AtHand and (CardRes1 &lt;= ResourceStorage1 and CardRes2 &lt;= ResourceStorage2 and CardRes3 &lt;= ResourceStorage3) 
 {
-script_execute(DeleteCardsField); //Удаляем карты с центра поля (использованые карты)
 
-//Записываем выбранную карту в текущую
-obj_CurrentCard.CardName            = CardName; 
-obj_CurrentCard.CardID              = CardID;
-obj_CurrentCard.CardRes1            = CardRes1;
-obj_CurrentCard.CardRes2            = CardRes2;
-obj_CurrentCard.CardRes3            = CardRes3;
-
-obj_CurrentCard.CardSelfTowerHp     = CardSelfTowerHp;
-obj_CurrentCard.CardEnemyTowerHp    = CardEnemyTowerHp;
-obj_CurrentCard.CardSelfWallHp      = CardSelfWallHp;
-obj_CurrentCard.CardEnemyWallHp     = CardEnemyWallHp;
-obj_CurrentCard.CardSelfHp          = CardSelfHp;
-obj_CurrentCard.CardEnemyHp         = CardEnemyHp;
-
-obj_CurrentCard.CardNmbAtHand       = CardNmbAtHand;
-
-obj_CurrentCard.CardSelfRes1 = CardSelfRes1; 
-obj_CurrentCard.CardSelfRes2 = CardSelfRes2;
-obj_CurrentCard.CardSelfRes3 = CardSelfRes3;
-obj_CurrentCard.CardSelfGen1 = CardSelfGen1;
-obj_CurrentCard.CardSelfGen2 = CardSelfGen2;
-obj_CurrentCard.CardSelfGen3 = CardSelfGen3;
-
-obj_CurrentCard.CardEnemyRes1 = CardEnemyRes1; 
-obj_CurrentCard.CardEnemyRes2 = CardEnemyRes2;
-obj_CurrentCard.CardEnemyRes3 = CardEnemyRes3;
-obj_CurrentCard.CardEnemyGen1 = CardEnemyGen1;
-obj_CurrentCard.CardEnemyGen2 = CardEnemyGen2;
-obj_CurrentCard.CardEnemyGen3 = CardEnemyGen3;
-
-
-
-
-//Говорим серверу, что отправили туда определенную карту ID
-script_execute(SetJSmap, "useCard", "card_id", CardID, "discard", false);
-script_execute(SendToSrv);
+    if obj_GameController.NewTurn
+    {
+        script_execute(DeleteCardsField); //Удаляем карты с центра поля (использованые карты)
+        obj_GameController.NewTurn = false;
+    }
     
-//Переносим карту в центр поля, убираем из руки, делаем неактивной
-x = obj_TableField.x - 200;
-y = obj_TableField.y;
-AtHand = false;
-Usable = false;
-
-//Сдвигаем руку влево, обыгрываем карту
-script_execute(MoveHandLeft, CardNmbAtHand);
-script_execute(PlayCurrentCard);
-script_execute(SetCardVision);
-
-obj_GameController.IsItMyTime = false;
-obj_Timer.Freeze = true;
+    //Записываем выбранную карту в текущую
+    obj_CurrentCard.CardName            = CardName; 
+    obj_CurrentCard.CardID              = CardID;
+    obj_CurrentCard.CardRes1            = CardRes1;
+    obj_CurrentCard.CardRes2            = CardRes2;
+    obj_CurrentCard.CardRes3            = CardRes3;
+    
+    obj_CurrentCard.CardSelfTowerHp     = CardSelfTowerHp;
+    obj_CurrentCard.CardEnemyTowerHp    = CardEnemyTowerHp;
+    obj_CurrentCard.CardSelfWallHp      = CardSelfWallHp;
+    obj_CurrentCard.CardEnemyWallHp     = CardEnemyWallHp;
+    obj_CurrentCard.CardSelfHp          = CardSelfHp;
+    obj_CurrentCard.CardEnemyHp         = CardEnemyHp;
+    
+    obj_CurrentCard.CardNmbAtHand       = CardNmbAtHand;
+    obj_CurrentCard.PlayAgain           = PlayAgain;
+    
+    obj_CurrentCard.CardSelfRes1 = CardSelfRes1; 
+    obj_CurrentCard.CardSelfRes2 = CardSelfRes2;
+    obj_CurrentCard.CardSelfRes3 = CardSelfRes3;
+    obj_CurrentCard.CardSelfGen1 = CardSelfGen1;
+    obj_CurrentCard.CardSelfGen2 = CardSelfGen2;
+    obj_CurrentCard.CardSelfGen3 = CardSelfGen3;
+    
+    obj_CurrentCard.CardEnemyRes1 = CardEnemyRes1; 
+    obj_CurrentCard.CardEnemyRes2 = CardEnemyRes2;
+    obj_CurrentCard.CardEnemyRes3 = CardEnemyRes3;
+    obj_CurrentCard.CardEnemyGen1 = CardEnemyGen1;
+    obj_CurrentCard.CardEnemyGen2 = CardEnemyGen2;
+    obj_CurrentCard.CardEnemyGen3 = CardEnemyGen3;
+    
+    //Говорим серверу, что отправили туда определенную карту ID
+    script_execute(SetJSmap, "useCard", "card_id", CardID, "discard", false);
+    script_execute(SendToSrv);
+        
+    //Переносим карту в центр поля, убираем из руки, делаем неактивной
+    DestinationX    = obj_TableField.x + obj_GameController.PlayedCardsCount * 10;
+    DestinationY    = obj_TableField.y + obj_GameController.PlayedCardsCount * 10;
+    Moving          = true;
+    MoveSpeedX      = (DestinationX - x) / 8; 
+    MoveSpeedY      = (DestinationY - y) / 8;
+    depth           = -2 - obj_GameController.PlayedCardsCount;
+    
+    AtHand = false;
+    Usable = false;
+    
+    
+    
+    //Сдвигаем руку влево, обыгрываем карту
+    
+       
+    script_execute(MoveHandLeft, CardNmbAtHand);
+    script_execute(PlayCurrentCard);
+    script_execute(SetCardVision);
+      
+    if !obj_CurrentCard.PlayAgain
+    { 
+        obj_GameController.IsItMyTime = false;
+        obj_Timer.Freeze = true;
+    }
+    
 }
 </string>
           </argument>

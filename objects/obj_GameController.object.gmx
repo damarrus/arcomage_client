@@ -29,26 +29,32 @@
 {
     FirstPlayer = true; //Получаем зеркальное отображение таверов
     IsItMyTime = false;
-
+    NewTurn = true;
+    NewTurnEnemy = true;
+    
     script_execute(SetJSmap, "ready", "", "", "", ""); //Запрашиваем начальные карты
     script_execute(SendToSrv);
     
-    SelfWallHp = 15;
-    EnemyWallHp = 15;
+    PlayedCards[0,0] = 0;
+    PlayedCardsCount = 0;
+    PlayedCardDepth = -1;
     
-    THealth = 15;
-    EHealth = 15;
+    SelfWallHp = 10;
+    EnemyWallHp = 10;
     
-    SelfRes1 = 10;
-    SelfRes2 = 10;
-    SelfRes3 = 10;
+    THealth = 30;
+    EHealth = 30;
+    
+    SelfRes1 = 2;
+    SelfRes2 = 2;
+    SelfRes3 = 2;
     SelfGen1 = 2;
     SelfGen2 = 2;
     SelfGen3 = 2;
     
-    EnemyRes1 = 10;
-    EnemyRes2 = 10;
-    EnemyRes3 = 10;
+    EnemyRes1 = 2;
+    EnemyRes2 = 2;
+    EnemyRes3 = 2;
     EnemyGen1 = 2;
     EnemyGen2 = 2;
     EnemyGen3 = 2;
@@ -105,7 +111,7 @@ else if room = 0 //Если мы в окне авторизации
         </arguments>
       </action>
     </event>
-    <event eventtype="9" enumb="99">
+    <event eventtype="9" enumb="101">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -122,60 +128,12 @@ else if room = 0 //Если мы в окне авторизации
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>with (obj_Card)
+            <string>var i = 0;
+with obj_Card
 {
-    show_message("card");
+    i += 1;
 }
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="98">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>script_execute(SetJSmap, "searchGame", "player_id", 2, "", "");
-script_execute(SendToSrv);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="97">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>
-script_execute(SetJSmap, "searchGame", "player_id", 1, "","");
-script_execute(SendToSrv);
+show_message(i);
 </string>
           </argument>
         </arguments>

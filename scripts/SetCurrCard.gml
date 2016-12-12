@@ -1,14 +1,16 @@
 //argument0 = true - если надо будет создать карту в руке, false если не в руку
-//argument1 = true - если карта сброшена - false если надо проверить наличие
+//argument1 = true - если надо проверить на дискард (отобразить что противник сбросил карту)
 obj_CurrentCard.CardName            = ds_map_find_value(global.JSmap, "card_name");
 obj_CurrentCard.CardID              = ds_map_find_value(global.JSmap, "card_id");
 obj_CurrentCard.CardRes1            = ds_map_find_value(global.JSmap, "card_res1");
 obj_CurrentCard.CardRes2            = ds_map_find_value(global.JSmap, "card_res2");
 obj_CurrentCard.CardRes3            = ds_map_find_value(global.JSmap, "card_res3");
 obj_CurrentCard.AtHand              = argument0;
+obj_CurrentCard.PlayAgain           = true;
 
 if argument1 {obj_CurrentCard.Discarded = ds_map_find_value(global.JSmap, "discard");}
 else {obj_CurrentCard.Discarded = false;}
+
 
 obj_CurrentCard.CardSelfTowerHp     = ds_map_find_value(global.JSmap, "card_self_tower_hp");
 obj_CurrentCard.CardEnemyTowerHp    = ds_map_find_value(global.JSmap, "card_enemy_tower_hp");

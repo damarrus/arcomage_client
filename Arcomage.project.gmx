@@ -44,6 +44,8 @@
       <script>scripts\CreateCardListFromDeck.gml</script>
       <script>scripts\DelCardManagerObjects.gml</script>
       <script>scripts\CreateDecksFromArray.gml</script>
+      <script>scripts\AddCardToPlayed.gml</script>
+      <script>scripts\ShowPlayedCards.gml</script>
     </scripts>
     <scripts name="Network">
       <script>scripts\NetworkConnect.gml</script>
@@ -93,6 +95,7 @@
   <objects name="objects">
     <objects name="Card">
       <object>objects\obj_Card</object>
+      <object>objects\obj_CardVision</object>
       <object>objects\obj_CurrentCard</object>
     </objects>
     <objects name="Controllers">

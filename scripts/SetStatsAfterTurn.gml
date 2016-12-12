@@ -2,8 +2,17 @@
 
 if argument0 //Если игрок - первый игрок
 {
-    obj_GameController.IsItMyTime = ds_map_find_value(global.JSmap, "turn");
+    if obj_GameController.FirstPlayer = "" //При получении первого хода определяется истинно первый игрок(для зеркального отображения таверов)
+    {
+        obj_GameController.FirstPlayer = ds_map_find_value(global.JSmap, "turn");
+    }    
+
     
+    if obj_GameController.IsItMyTime != ds_map_find_value(global.JSmap, "turn")
+    {
+        obj_GameController.NewTurn = true;    
+    }
+    obj_GameController.IsItMyTime = ds_map_find_value(global.JSmap, "turn");    
 
     obj_GameController.THealth = ds_map_find_value(global.JSmap, "tower_hp");
     obj_GameController.SelfWallHp = ds_map_find_value(global.JSmap, "wall_hp");
@@ -15,14 +24,16 @@ if argument0 //Если игрок - первый игрок
     obj_GameController.SelfGen2 = ds_map_find_value(global.JSmap, "gen2");
     obj_GameController.SelfGen3 = ds_map_find_value(global.JSmap, "gen3");
     
-    if obj_GameController.FirstPlayer = "" //При получении первого хода определяется истинно первый игрок(для зеркального отображения таверов)
-    {
-        obj_GameController.FirstPlayer = ds_map_find_value(global.JSmap, "turn");
-    }
+    
 
 }
 else
 {
+    if obj_GameController.FirstPlayer = "" //При получении первого хода определяется истинно первый игрок(для зеркального отображения таверов)
+    {     
+        obj_GameController.FirstPlayer = ds_map_find_value(global.JSmap, "turn");
+    }
+    
 
     obj_GameController.EHealth = ds_map_find_value(global.JSmap, "tower_hp");
     obj_GameController.EnemyWallHp = ds_map_find_value(global.JSmap, "wall_hp");
@@ -34,9 +45,6 @@ else
     obj_GameController.EnemyGen2 = ds_map_find_value(global.JSmap, "gen2");
     obj_GameController.EnemyGen3 = ds_map_find_value(global.JSmap, "gen3");
     
-    if obj_GameController.FirstPlayer = "" //При получении первого хода определяется истинно первый игрок(для зеркального отображения таверов)
-    {      
-        obj_GameController.FirstPlayer = ds_map_find_value(global.JSmap, "turn");
-    }
+    
 
 }

@@ -6,7 +6,7 @@ var Message = ds_map_find_value(global.JSmap, "messageType"); //Определя
 
 if Message = "getCardRandom" //если это рандомная карта, то заполняем currentCard и создаем карту на поле
 {
-    script_execute(GetCardFromDBbyID, ds_map_find_value(global.JSmap, "card_id"));
+    script_execute(GetCardFromDBbyID, ds_map_find_value(global.JSmap, "card_id"), "getCardRandom");
     script_execute(SetCurrCard, true, false);  
     script_execute(CreateCardAtHand);
     
@@ -66,10 +66,19 @@ else if Message = "unAuth" //разавторизуемся
 
 else if Message = "getCardOpponent" //получаем ход мой/не мой
 {  
-
-    script_execute(GetCardFromDBbyID, ds_map_find_value(global.JSmap, "card_id"));
-    script_execute(SetCurrCard, false, false);    
-    script_execute(CreateCardAtField);
+    var discard = ds_map_find_value(global.JSmap, "discard");
+    script_execute(GetCardFromDBbyID, ds_map_find_value(global.JSmap, "card_id"), "getCardOpponent");
+    ds_map_add(global.JSmap, "discard", discard);
+    script_execute(SetCurrCard, false, true);
+    
+    if obj_GameController.NewTurnEnemy
+    {
+        script_execute(DeleteCardsField); //Удаляем карты с центра поля (использованые карты)
+        obj_GameController.NewTurnEnemy = false;        
+    } 
+       
+    script_execute(AddCardToPlayed, obj_CurrentCard.CardID, discard);
+    script_execute(ShowPlayedCards);
     
 }
 

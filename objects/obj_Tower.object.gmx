@@ -62,6 +62,9 @@ draw_sprite_ext(sp_background,0, sprite_get_width(sp_background)/2, sprite_get_h
 draw_set_colour(c_black);
 draw_set_font(font0);
 draw_text(600, 300, string(obj_GameController.IsItMyTime));
+draw_text(600, 340, string(obj_GameController.NewTurn));
+draw_text(600, 380, string(obj_GameController.NewTurnEnemy));
+
 if obj_GameController.FirstPlayer
 {
     TowerHeight = Ground - (obj_GameController.THealth / MaxTower) * 600; 
@@ -102,29 +105,6 @@ draw_text(1920 - x - 100, y, obj_GameController.EHealth);
 
 
 
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="73">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>obj_GameController.THealth +=1;
 </string>
           </argument>
         </arguments>
