@@ -4,7 +4,7 @@ From = obj_DeckManager.Page * CardsOnPage - (CardsOnPage - 1) - 1; //Опред�
 
 if global.DatabaseCardsCount < obj_DeckManager.Page * CardsOnPage
 {
-    To = obj_DeckManager.CollectionCardsCount - 1;
+    To = global.CollectionCardsCount - 1;
 }
 else
 {

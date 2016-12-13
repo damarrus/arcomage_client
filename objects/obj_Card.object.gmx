@@ -32,6 +32,7 @@
 Moving              = false;
 MoveSpeedX          = 0;
 MoveSpeedY          = 0;
+visible             = false;
 
 DestinationX        = x;
 DestinationY        = y;
@@ -82,14 +83,7 @@ else if AtHand
     CardSpIndex = 0;       
 }
 
-if AtHand
-{
-    script_execute(SetCardMoving, obj_Hand.x + (sprite_get_width(sp_Card) * CardNmbAtHand) + (10 * CardNmbAtHand), obj_Hand.y, 24);
-}
-else
-{
-    script_execute(SetCardMoving, obj_TableField.x + obj_GameController.PlayedCardsCount * 10, obj_TableField.y + obj_GameController.PlayedCardsCount * 10, 16);    
-}
+alarm_set(0, obj_GameController.MoveTimeout);
 
 </string>
           </argument>
@@ -113,7 +107,9 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if CardSpIndex = 1
+            <string>obj_GameController.CardAvailable = true;
+
+if CardSpIndex = 1
 {
     script_execute(AddCardToPlayed, CardID, true);    
     script_execute(ShowPlayedCards);
@@ -122,6 +118,36 @@ else
 {
     script_execute(AddCardToPlayed, CardID, false);    
     script_execute(ShowPlayedCards);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if AtHand
+{
+    script_execute(SetCardMoving, obj_Hand.x + (sprite_get_width(sp_Card) * CardNmbAtHand) + (10 * CardNmbAtHand), obj_Hand.y, 24);
+}
+else
+{
+    script_execute(SetCardMoving, obj_TableField.x + obj_GameController.PlayedCardsCount * 10, obj_TableField.y + obj_GameController.PlayedCardsCount * 10, 16);    
 }
 </string>
           </argument>
@@ -197,7 +223,9 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//событие discard
+            <string>if !obj_GameController.CardAvailable {exit;}
+if depth &gt; obj_Blocker.depth {exit;}
+//событие discard
 if obj_GameController.IsItMyTime and AtHand 
 {
 
@@ -253,7 +281,9 @@ if obj_GameController.IsItMyTime and AtHand
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if depth &gt; obj_Blocker.depth {exit;}
+            <string>if !obj_GameController.CardAvailable {exit;}
+
+if depth &gt; obj_Blocker.depth {exit;}
 
 var ResourceStorage1 = obj_GameController.SelfRes1,
     ResourceStorage2 = obj_GameController.SelfRes2,
@@ -315,8 +345,9 @@ if obj_GameController.IsItMyTime and AtHand and (CardRes1 &lt;= ResourceStorage1
     
     //Сдвигаем руку влево, обыгрываем карту
     
-       
+
     script_execute(MoveHandLeft, CardNmbAtHand);
+    
     script_execute(PlayCurrentCard);
     script_execute(SetCardVision);
       

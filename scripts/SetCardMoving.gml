@@ -1,7 +1,7 @@
 //argument0 - DestinationX
 //argument1 - DestinationY
 //argument2 - Коэффициент скорости (чем меньше, тем скорость выше)
-
+visible         = true;
 DestinationX    = argument0;
 DestinationY    = argument1;
 Moving          = true;

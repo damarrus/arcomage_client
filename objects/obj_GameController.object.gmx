@@ -27,10 +27,11 @@
             <kind>1</kind>
             <string>if room = 2 //Если мы на игровом поле, а не в меню
 {
-    FirstPlayer = true; //Получаем зеркальное отображение таверов
-    IsItMyTime = false;
-    NewTurn = true;
-    NewTurnEnemy = true;
+    FirstPlayer     = true; //Получаем зеркальное отображение таверов
+    IsItMyTime      = false;
+    NewTurn         = true;
+    NewTurnEnemy    = true;
+    CardAvailable   = true;
     
     script_execute(SetJSmap, "ready", "", "", "", ""); //Запрашиваем начальные карты
     script_execute(SendToSrv);

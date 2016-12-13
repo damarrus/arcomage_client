@@ -26,6 +26,7 @@
     <sprite>sprites\sp_Handfield</sprite>
     <sprite>sprites\sp_LoginButtons</sprite>
     <sprite>sprites\sp_Deck</sprite>
+    <sprite>sprites\sp_Lens</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -46,6 +47,8 @@
       <script>scripts\CreateDecksFromArray.gml</script>
       <script>scripts\AddCardToPlayed.gml</script>
       <script>scripts\ShowPlayedCards.gml</script>
+      <script>scripts\ShrinkNGrow.gml</script>
+      <script>scripts\SetCardUsable.gml</script>
       <script>scripts\SetCardMoving.gml</script>
     </scripts>
     <scripts name="Network">
@@ -98,6 +101,7 @@
       <object>objects\obj_Card</object>
       <object>objects\obj_CardVision</object>
       <object>objects\obj_CurrentCard</object>
+      <object>objects\btn_CardVisionLens</object>
     </objects>
     <objects name="Controllers">
       <object>objects\obj_MessageController</object>

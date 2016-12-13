@@ -7,9 +7,16 @@ var Message = ds_map_find_value(global.JSmap, "messageType"); //Определя
 if Message = "getCardRandom" //если это рандомная карта, то заполняем currentCard и создаем карту на поле
 {
     script_execute(GetCardFromDBbyID, ds_map_find_value(global.JSmap, "card_id"), "getCardRandom");
-    script_execute(SetCurrCard, true, false);  
+    script_execute(SetCurrCard, true, false);
+    var k = 0;
+    with obj_Card
+    {
+        k += 1;
+    }
+    if k >= 6 {k = 1;}
+    obj_GameController.MoveTimeout = k * 10 + 1; 
     script_execute(CreateCardAtHand);
-    
+    obj_GameController.MoveTimeout = 1; 
 }
 
 //getCardRandom
@@ -71,6 +78,7 @@ else if Message = "getCardOpponent" //получаем ход мой/не мой
     ds_map_add(global.JSmap, "discard", discard);
     script_execute(SetCurrCard, false, true);
     
+    obj_GameController.CardAvailable = false;
     if obj_GameController.NewTurnEnemy
     {
         script_execute(DeleteCardsField); //Удаляем карты с центра поля (использованые карты)
