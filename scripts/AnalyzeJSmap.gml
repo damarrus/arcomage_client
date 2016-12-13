@@ -76,9 +76,10 @@ else if Message = "getCardOpponent" //получаем ход мой/не мой
         script_execute(DeleteCardsField); //Удаляем карты с центра поля (использованые карты)
         obj_GameController.NewTurnEnemy = false;        
     } 
-       
-    script_execute(AddCardToPlayed, obj_CurrentCard.CardID, discard);
-    script_execute(ShowPlayedCards);
+    
+    instance_create(room_width - 100, 0, obj_Card);   
+    //script_execute(AddCardToPlayed, obj_CurrentCard.CardID, discard);
+    //script_execute(ShowPlayedCards);
     
 }
 

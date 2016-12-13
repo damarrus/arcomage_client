@@ -5,10 +5,6 @@ with obj_CardVision
    instance_destroy();    
 }
 
-if obj_GameController.IsItMyTime and !obj_GameController.NewTurnEnemy
-{
-    obj_GameController.NewTurnEnemy = true;
-}
 
 obj_GameController.PlayedCardDepth = -1;
 for (var i = 0; i < obj_GameController.PlayedCardsCount; i += 1)

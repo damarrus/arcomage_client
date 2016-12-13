@@ -8,6 +8,6 @@ with (obj_Card)
     }    
 }
 k = obj_CurrentCard.CardNmbAtHand;
-instance_create(obj_Hand.x + (sprite_get_width(sp_Card) * k) + (10 * k), obj_Hand.y, obj_Card);
+instance_create(room_width - 100, room_height, obj_Card);
 
 

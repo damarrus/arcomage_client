@@ -6,7 +6,7 @@ obj_CurrentCard.CardRes1            = ds_map_find_value(global.JSmap, "card_res1
 obj_CurrentCard.CardRes2            = ds_map_find_value(global.JSmap, "card_res2");
 obj_CurrentCard.CardRes3            = ds_map_find_value(global.JSmap, "card_res3");
 obj_CurrentCard.AtHand              = argument0;
-obj_CurrentCard.PlayAgain           = true;
+obj_CurrentCard.PlayAgain           = ds_map_find_value(global.JSmap, "card_endturn");
 
 if argument1 {obj_CurrentCard.Discarded = ds_map_find_value(global.JSmap, "discard");}
 else {obj_CurrentCard.Discarded = false;}

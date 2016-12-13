@@ -82,8 +82,14 @@ else if AtHand
     CardSpIndex = 0;       
 }
 
-
-
+if AtHand
+{
+    script_execute(SetCardMoving, obj_Hand.x + (sprite_get_width(sp_Card) * CardNmbAtHand) + (10 * CardNmbAtHand), obj_Hand.y, 24);
+}
+else
+{
+    script_execute(SetCardMoving, obj_TableField.x + obj_GameController.PlayedCardsCount * 10, obj_TableField.y + obj_GameController.PlayedCardsCount * 10, 16);    
+}
 
 </string>
           </argument>
@@ -206,12 +212,8 @@ if obj_GameController.IsItMyTime and AtHand
     script_execute(SendToSrv);
         
     //Переносим карту в центр поля, убираем из руки, делаем неактивной
-    DestinationX    = obj_TableField.x + obj_GameController.PlayedCardsCount * 10;
-    DestinationY    = obj_TableField.y + obj_GameController.PlayedCardsCount * 10;
-    Moving          = true;
-    MoveSpeedX      = (DestinationX - x) / 8; 
-    MoveSpeedY      = (DestinationY - y) / 8;
-    depth           = -2 - obj_GameController.PlayedCardsCount;
+    script_execute(SetCardMoving, obj_TableField.x + obj_GameController.PlayedCardsCount * 10, obj_TableField.y + obj_GameController.PlayedCardsCount * 10, 16);
+
     
     AtHand = false;
     Usable = false;
@@ -223,6 +225,10 @@ if obj_GameController.IsItMyTime and AtHand
 
     obj_GameController.IsItMyTime = false;
     obj_Timer.Freeze = true;
+    if !obj_GameController.NewTurnEnemy
+    {
+        obj_GameController.NewTurnEnemy = true;
+    }
     
 }
 </string>
@@ -299,12 +305,8 @@ if obj_GameController.IsItMyTime and AtHand and (CardRes1 &lt;= ResourceStorage1
     script_execute(SendToSrv);
         
     //Переносим карту в центр поля, убираем из руки, делаем неактивной
-    DestinationX    = obj_TableField.x + obj_GameController.PlayedCardsCount * 10;
-    DestinationY    = obj_TableField.y + obj_GameController.PlayedCardsCount * 10;
-    Moving          = true;
-    MoveSpeedX      = (DestinationX - x) / 8; 
-    MoveSpeedY      = (DestinationY - y) / 8;
-    depth           = -2 - obj_GameController.PlayedCardsCount;
+    script_execute(SetCardMoving, obj_TableField.x + obj_GameController.PlayedCardsCount * 10, obj_TableField.y + obj_GameController.PlayedCardsCount * 10, 16);
+
     
     AtHand = false;
     Usable = false;
@@ -323,6 +325,11 @@ if obj_GameController.IsItMyTime and AtHand and (CardRes1 &lt;= ResourceStorage1
         obj_GameController.IsItMyTime = false;
         obj_Timer.Freeze = true;
     }
+    if !obj_GameController.NewTurnEnemy
+    {
+        obj_GameController.NewTurnEnemy = true;
+    }
+    
     
 }
 </string>
