@@ -1,4 +1,8 @@
 //Получаем значения таверов и прочих ресурсов
+if obj_GameController.DiscardPhase
+{
+    obj_GameController.DiscardPhase = false;
+}
 
 if argument0 //Если игрок - первый игрок
 {

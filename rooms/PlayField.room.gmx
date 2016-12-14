@@ -68,6 +68,8 @@ ini_close();</code>
     <instance objName="obj_Blocker" x="912" y="704" name="inst_1EAFB85B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Timer" x="880" y="176" name="inst_7B30C30E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="btn_EndTurn" x="1152" y="80" name="inst_C3149BC1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="btn_CardVisionLens" x="1056" y="160" name="inst_C069D102" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="btn_BackToDeck" x="1232" y="144" name="inst_F47E622B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

@@ -28,10 +28,12 @@
             <string>if room = 2 //Если мы на игровом поле, а не в меню
 {
     FirstPlayer     = true; //Получаем зеркальное отображение таверов
-    IsItMyTime      = false;
+    IsItMyTime      = false; 
     NewTurn         = true;
     NewTurnEnemy    = true;
     CardAvailable   = true;
+    Shrank          = false;
+    DiscardPhase    = true;
     
     script_execute(SetJSmap, "ready", "", "", "", ""); //Запрашиваем начальные карты
     script_execute(SendToSrv);

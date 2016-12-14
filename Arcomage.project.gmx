@@ -6,6 +6,7 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
+    <sprite>sprites\sp_DeckScroll</sprite>
     <sprite>sprites\sp_Button</sprite>
     <sprite>sprites\sp_TextField</sprite>
     <sprite>sprites\sp_Dialog</sprite>
@@ -102,6 +103,7 @@
       <object>objects\obj_CardVision</object>
       <object>objects\obj_CurrentCard</object>
       <object>objects\btn_CardVisionLens</object>
+      <object>objects\btn_BackToDeck</object>
     </objects>
     <objects name="Controllers">
       <object>objects\obj_MessageController</object>

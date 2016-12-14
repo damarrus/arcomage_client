@@ -74,7 +74,7 @@ ResourceStorage1    = obj_GameController.SelfRes1;
 ResourceStorage2    = obj_GameController.SelfRes2;
 ResourceStorage3    = obj_GameController.SelfRes3;
 
-if (AtHand and (CardRes1 &gt; ResourceStorage1 or CardRes2 &gt; ResourceStorage2 or CardRes3 &gt; ResourceStorage3)) or (!AtHand and Discarded) 
+if ((AtHand and (CardRes1 &gt; ResourceStorage1 or CardRes2 &gt; ResourceStorage2 or CardRes3 &gt; ResourceStorage3)) or (!AtHand and Discarded)) and !obj_GameController.DiscardPhase 
 {        
     CardSpIndex = 1;    
 }
@@ -108,7 +108,8 @@ alarm_set(0, obj_GameController.MoveTimeout);
           <argument>
             <kind>1</kind>
             <string>obj_GameController.CardAvailable = true;
-
+if obj_GameController.DiscardPhase {exit;}
+ 
 if CardSpIndex = 1
 {
     script_execute(AddCardToPlayed, CardID, true);    
@@ -223,8 +224,8 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if !obj_GameController.CardAvailable {exit;}
-if depth &gt; obj_Blocker.depth {exit;}
+            <string>if !obj_GameController.CardAvailable or depth &gt; obj_Blocker.depth or obj_GameController.DiscardPhase
+{exit;}
 //событие discard
 if obj_GameController.IsItMyTime and AtHand 
 {
@@ -240,6 +241,10 @@ if obj_GameController.IsItMyTime and AtHand
     script_execute(SendToSrv);
         
     //Переносим карту в центр поля, убираем из руки, делаем неактивной
+    if obj_GameController.Shrank = true
+    {
+        script_execute(ShrinkNGrow);
+    }
     script_execute(SetCardMoving, obj_TableField.x + obj_GameController.PlayedCardsCount * 10, obj_TableField.y + obj_GameController.PlayedCardsCount * 10, 16);
 
     
@@ -281,9 +286,21 @@ if obj_GameController.IsItMyTime and AtHand
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if !obj_GameController.CardAvailable {exit;}
+            <string>if !obj_GameController.CardAvailable or depth &gt; obj_Blocker.depth 
+{exit;}
 
-if depth &gt; obj_Blocker.depth {exit;}
+if obj_GameController.DiscardPhase
+{
+    if CardSpIndex = 0
+    {
+        CardSpIndex = 1;        
+    } 
+    else if CardSpIndex = 1
+    {
+        CardSpIndex = 0;     
+    }
+    exit;
+}
 
 var ResourceStorage1 = obj_GameController.SelfRes1,
     ResourceStorage2 = obj_GameController.SelfRes2,
@@ -335,6 +352,11 @@ if obj_GameController.IsItMyTime and AtHand and (CardRes1 &lt;= ResourceStorage1
     script_execute(SendToSrv);
         
     //Переносим карту в центр поля, убираем из руки, делаем неактивной
+    if obj_GameController.Shrank = true
+    {
+    script_execute(ShrinkNGrow);
+    }
+    
     script_execute(SetCardMoving, obj_TableField.x + obj_GameController.PlayedCardsCount * 10, obj_TableField.y + obj_GameController.PlayedCardsCount * 10, 16);
 
     

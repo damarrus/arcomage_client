@@ -4,7 +4,7 @@ with (obj_Card)
         ResourceStorage2 = obj_GameController.SelfRes2,
         ResourceStorage3 = obj_GameController.SelfRes3;  
     
-    if AtHand and (CardRes1 > ResourceStorage1 or CardRes2 > ResourceStorage2 or CardRes3 > ResourceStorage3) 
+    if AtHand and (CardRes1 > ResourceStorage1 or CardRes2 > ResourceStorage2 or CardRes3 > ResourceStorage3) and !obj_GameController.DiscardPhase
     {        
         CardSpIndex = 1;    
     }

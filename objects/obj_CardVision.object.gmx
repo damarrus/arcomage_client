@@ -29,6 +29,12 @@
 //CardID          = obj_CurrentCard.CardCost;
 //CardDamage      = obj_CurrentCard.CardDamage;
 //CardNmbAtHand   = obj_CurrentCard.CardNmbAtHand;
+Moving              = false;
+MoveSpeedX          = 0;
+MoveSpeedY          = 0;
+DestinationX        = x;
+DestinationY        = y;
+
 depth               = obj_GameController.PlayedCardDepth;
 CardSpIndex = 0;
 CardID              = obj_CurrentCard.CardID;
@@ -76,6 +82,54 @@ if string_count("discard", CardState) &gt; 0
         </arguments>
       </action>
     </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if Moving
+{
+    
+    x += MoveSpeedX;
+    y += MoveSpeedY;    
+    
+    
+    if abs(DestinationX - x) &lt; abs(MoveSpeedX)
+    {
+        MoveSpeedX = (DestinationX - x);   
+    }
+    if abs(DestinationY - y) &lt; abs(MoveSpeedY)
+    {
+        MoveSpeedY = (DestinationY - y);   
+    }
+    
+    else if (abs(DestinationX - x) &lt; 1) and (abs(DestinationY - y) &lt; 1)
+    {
+        x = DestinationX;
+        y = DestinationY;
+        Moving = false;
+        MoveSpeedX = 0;
+        MoveSpeedY = 0;
+    }
+    
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -100,7 +154,6 @@ draw_set_halign(fa_center);
 CardNameText = string_replace(CardName, " ", "#");
 CardNameText = string_replace(CardNameText, "(newcard)", "");
 draw_text(x, y + 40, CardNameText);
-
 description = ""; 
 
 draw_set_colour(c_white);
