@@ -4,8 +4,9 @@ var DeckArray;
 DeckArray[0] = "";
 for (var i = 0; i < DecksCount; i += 1)  //Начинаем перебирать массив с колодами
 {  
-         
+       
     DeckArray = script_execute(ParseCollection, obj_DeckManager.Decks[i]);
+    //show_message(DeckArray);
     obj_DeckManager.CurrentDeckNum = real(DeckArray[0]); 
     obj_DeckManager.CurrentDeckName = DeckArray[1];
     for (var j = 2; j <= array_length_1d(DeckArray) -1; j += 1)

@@ -26,10 +26,15 @@
           <argument>
             <kind>1</kind>
             <string>DeckID = round(real(obj_DeckManager.CurrentDeckNum));
+Moving = false;
 DeckName = obj_DeckManager.CurrentDeckName;
 SavedDeckName = DeckName;
 SavedDeckNum = DeckID;
 Active = false;
+Usable = true;
+image_speed = 0;
+PositionY = y;
+
 
 New = obj_DeckManager.New;
 obj_DeckManager.New = false;
@@ -87,21 +92,48 @@ SavedCardsInDeck = CardsInDeck; //Сохраняем сколько было к�
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if !Active and btn_SaveDeck.visible
+            <string>if !Usable
+{exit;}
+
+if Active and btn_SaveDeck.visible
 {
     obj_DeckManager.PressedDeckID = id;
     script_execute(CreateMultiDialog, 800, 500, "U have unsaved changes", "" ,"Don't save", "RestoreSavedDeck", "Back", "","","")
 
 }
-else
+else if Active = false
 {
+    
+    var ID = id;
+    
     with (obj_Deck)
     {
-    Active = false;
+        Usable = false;
+        if ID != id
+        {
+            Active = false;
+            image_speed = 0.3;
+        }
     }
-    
     Active = true;
-    script_execute(CreateCardListFromDeck);
+    ScrollSpeed = - 10;
+    
+}
+else if Active = true
+{
+    
+    with (obj_Deck)
+    {
+        Usable = false; 
+    }
+    ScrollSpeed = 10;
+    obj_DeckScroll.Shrinking = false;
+    obj_DeckScroll.Action = true;
+    
+    with (obj_CardInList) //Удаляем весь список карт со стола
+    {
+        instance_destroy();
+    }
     
     script_execute(SetCardInDeckVision); //Отображаем какие карты уже в колоде, а какие нет
 }
@@ -128,9 +160,80 @@ else
           <argument>
             <kind>1</kind>
             <string>draw_set_colour(c_black);
-draw_sprite(sp_Deck, 0 ,x,y);
-draw_text(x, y - 20, DeckName);
-draw_text(x, y, CardsInDeck);
+draw_sprite(sp_Deck, image_index ,x,y);
+
+if image_index &gt;= 0 and image_speed = 0
+{
+    draw_text(x, y - 20, DeckName + string(Active));
+    draw_text(x, y, CardsInDeck);
+}
+else if image_index &lt;= 0 and image_speed &lt; 0
+{
+    image_speed = 0; 
+    image_index = 0;   
+}
+
+
+if image_index &gt;= 5 and visible = true and image_speed &gt; 0
+{
+    image_speed = 0;
+    visible = false;
+    with obj_Deck
+    {
+        if Active and !Moving
+        {
+            script_execute(SetCardMoving, x, obj_DeckManager.DecksListY, 16);
+        }
+    }
+}
+
+if Moving
+{
+    
+    x += MoveSpeedX;
+    y += MoveSpeedY;    
+    
+    
+    if abs(DestinationX - x) &lt; abs(MoveSpeedX)
+    {
+        MoveSpeedX = (DestinationX - x);   
+    }
+    if abs(DestinationY - y) &lt; abs(MoveSpeedY)
+    {
+        MoveSpeedY = (DestinationY - y);   
+    }
+    
+    if (abs(DestinationX - x) &lt; 1) and (abs(DestinationY - y) &lt; 1)
+    {
+        
+        var ID = id;
+        if Active
+        { 
+            script_execute(CreateScroll);
+        }
+        else
+        {
+            with (obj_Deck)
+            {
+                Usable = true; 
+                if ID != id
+                {
+                    image_speed = -0.3;
+                }
+                visible = true;
+                Active = false; 
+            }
+        }
+        x = DestinationX;
+        y = DestinationY;
+        Moving = false;
+        MoveSpeedX = 0;
+        MoveSpeedY = 0;
+        
+        
+    }
+    
+}
 </string>
           </argument>
         </arguments>

@@ -108,7 +108,24 @@ alarm_set(0, obj_GameController.MoveTimeout);
           <argument>
             <kind>1</kind>
             <string>obj_GameController.CardAvailable = true;
-if obj_GameController.DiscardPhase {exit;}
+if obj_GameController.DiscardPhase and obj_GameController.DiscardPhaseNotSent
+{
+    var Massive = "";
+    with obj_Card
+    {
+        if CardSpIndex = 1
+        {
+            Massive += string(CardID) + ",";
+        }
+    }
+    Massive = string_delete(Massive, string_length(Massive), 1);
+    script_execute(SetJSmap, "changeStartCards", "card_ids", Massive, "", "");
+    script_execute(SendToSrv);
+    obj_GameController.DiscardPhaseNotSent = false;
+    exit;
+}
+else if obj_GameController.DiscardPhase {exit;} 
+
  
 if CardSpIndex = 1
 {

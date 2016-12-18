@@ -10,4 +10,8 @@ with (obj_Deck)
 {
     instance_destroy();
 }
+with (obj_DeckScroll)
+{
+    instance_destroy();
+}
 

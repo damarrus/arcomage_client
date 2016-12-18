@@ -20,7 +20,9 @@ with (obj_Deck)
 {   
     if id = obj_DeckManager.PressedDeckID
     {
-    Active = true;
+        Active = true;
+        event_perform(ev_mouse, ev_left_release); 
+       
     }
     else
     {
@@ -28,5 +30,5 @@ with (obj_Deck)
     }
 }
 
-script_execute(CreateCardListFromDeck);
+//script_execute(CreateCardListFromDeck);
 script_execute(SetCardInDeckVision);

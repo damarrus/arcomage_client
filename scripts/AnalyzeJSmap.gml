@@ -203,15 +203,13 @@ else if Message = "getDatabaseCards"
      
     var CardJSON = json_encode(global.JSmap);  
     file_text_write_string(CardDatabase,CardJSON);
-    file_text_writeln(CardDatabase); 
-      
+    file_text_writeln(CardDatabase);   
     if ds_map_find_value(global.JSmap, "card_id") = global.DatabaseCardsCount //При последней карте закрываем файл
     {
         
         file_text_close(CardDatabase);
         
-    }    
-              
+    }          
 }
 //getDatabaseCards
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

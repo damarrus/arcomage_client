@@ -42,3 +42,8 @@ if DeckFounded
         
     }
 }
+else
+{
+    script_execute(ClearPage);
+    script_execute(ShowCardPage);
+}

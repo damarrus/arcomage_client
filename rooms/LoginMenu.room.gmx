@@ -14,7 +14,7 @@
 
 global.DatabaseCardsCount = 70;
 global.CollectionCardsCount = 30;
-global.MaxDeck = 30;
+global.MaxDeck = 20;
 global.DeckForGame = 1;
 global.UrName = "";
 global.EnName = "";

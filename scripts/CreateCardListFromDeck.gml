@@ -25,7 +25,7 @@ with (obj_Deck) //Перебираем все колоды
                         global.JSmap = json_decode(FileString);
                         
                         script_execute(SetCurrCard, false);
-                        instance_create(obj_DeckManager.CardsListX, obj_DeckManager.CardsListY + (obj_DeckManager.CardsListYDist + sprite_get_height(sp_Search)) * i, obj_CardInList);
+                        instance_create(obj_DeckScroll.x, obj_DeckScroll.y + 20 + (obj_DeckManager.CardsListYDist + sprite_get_height(sp_Search)) * i, obj_CardInList);
                         
                         file_text_readln(CardDB);
                         break;                       

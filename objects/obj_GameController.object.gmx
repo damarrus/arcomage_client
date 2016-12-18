@@ -34,6 +34,7 @@
     CardAvailable   = true;
     Shrank          = false;
     DiscardPhase    = true;
+    DiscardPhaseNotSent = true; //При удалении первой карты отправляется месседж о всех остальных сброшенных картах 
     
     script_execute(SetJSmap, "ready", "", "", "", ""); //Запрашиваем начальные карты
     script_execute(SendToSrv);
