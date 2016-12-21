@@ -12,8 +12,8 @@
   <showcolour>-1</showcolour>
   <code>script_execute(NetworkConnect);
 
-global.DatabaseCardsCount = 70;
-global.CollectionCardsCount = 30;
+global.DatabaseCardsCount = "";
+global.CollectionCardsCount = "";
 global.MaxDeck = 20;
 global.DeckForGame = 1;
 global.UrName = "";

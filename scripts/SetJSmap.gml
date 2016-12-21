@@ -15,4 +15,11 @@ if argument3 != ""
 
 ds_map_add(global.JSmap, argument3, argument4);
 
+}
+ 
+if argument5 != "" 
+{
+
+ds_map_add(global.JSmap, argument5, argument6);
+
 }  

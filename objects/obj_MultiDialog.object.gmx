@@ -77,7 +77,7 @@
             <string>draw_sprite_ext(sp_Dialog, 0, x,y, image_xscale, 1, 0,  c_white, 1);
 draw_set_colour(c_white);
 draw_set_font(font1);
-draw_text(x , y - 10, Text);
+draw_text(x , y - 45, Text);
 </string>
           </argument>
         </arguments>

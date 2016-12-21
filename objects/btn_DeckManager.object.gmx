@@ -50,7 +50,12 @@ Opened = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if depth &gt; obj_Blocker.depth {exit;}
+            <string>if !obj_GameController.ProgramClick
+{
+    if depth &gt; obj_Blocker.depth or obj_GameController.BlockAll
+    {exit;}
+}
+
 
 if !Opened
 {
@@ -58,6 +63,7 @@ if !Opened
     btn_TArrow.visible = true;
     btn_BArrow.visible = true;
     btn_ChooseDeck.visible = true;
+    script_execute(SetVisNewDeckBtn, true);
     script_execute(ShowCardPage);
     script_execute(CreateDecksFromArray);
     Opened = true;
@@ -70,6 +76,7 @@ else
         btn_TArrow.visible = false;
         btn_BArrow.visible = false;
         btn_ChooseDeck.visible = false;
+        script_execute(SetVisNewDeckBtn, true);
         script_execute(DelCardManagerObjects);
         Opened = false;
     }

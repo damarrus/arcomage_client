@@ -87,7 +87,12 @@ CardEnemyGen3       = obj_CurrentCard.CardEnemyGen3;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if depth &gt; obj_Blocker.depth {exit;}
+            <string>if !obj_GameController.ProgramClick
+{
+    if depth &gt; obj_Blocker.depth or obj_GameController.BlockAll
+    {exit;}
+}
+
 
 var TempCardSpIndex = CardSpIndex;
 var TempID = real(CardID);
@@ -116,7 +121,8 @@ with (obj_Deck)
                         break;    
                     }
                 
-                } 
+                }
+                btn_SaveDeck.Active  = true;
                 btn_SaveDeck.visible = true;
                 script_execute(CreateCardListFromDeck);
                 script_execute(SetCardInDeckVision);
@@ -142,7 +148,8 @@ with (obj_Deck)
                     move = true;    
                 }
                 
-            } 
+            }
+            btn_SaveDeck.Active  = true;
             btn_SaveDeck.visible = true;
             script_execute(CreateCardListFromDeck);
             script_execute(SetCardInDeckVision);

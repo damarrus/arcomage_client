@@ -212,7 +212,7 @@ if Active
     }
     Login = GotLogin;
     Password = GotPassword;
-    script_execute(SetJSmap,"auth", "login", Login, "password", Password);
+    script_execute(SetJSmap,"auth", "login", Login, "password", Password, "", "");
     script_execute(SendToSrv);
     Active = false;
 }

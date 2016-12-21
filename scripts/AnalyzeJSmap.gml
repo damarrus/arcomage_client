@@ -173,7 +173,6 @@ else if Message = "getDatabaseCardsCount"
 {
     global.DatabaseCardsCount = ds_map_find_value(global.JSmap, "value"); //Получаем сколько карт у нас всего в игре
     //show_message("В базе " + string(ds_map_find_value(global.JSmap, "value"))); 
-    instance_create(room_width/2, room_height/2, obj_Loginbox);  
 }
 
 //getDatabaseCardsCount
@@ -206,13 +205,22 @@ else if Message = "getDatabaseCards"
     file_text_writeln(CardDatabase);   
     if ds_map_find_value(global.JSmap, "card_id") = global.DatabaseCardsCount //При последней карте закрываем файл
     {
-        
         file_text_close(CardDatabase);
-        
+        instance_create(room_width/2, room_height/2, obj_Loginbox);  
     }          
 }
 //getDatabaseCards
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+else if Message = "checkHash" 
+{
+ 
+    instance_create(room_width/2, room_height/2, obj_Loginbox);          
+        
+}
+//checkHash
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 else if Message = "getCollectionCards" 
@@ -223,5 +231,54 @@ else if Message = "getCollectionCards"
 }
 
 //getCollectionCards
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+else if Message = "setDeckCards" //Получаем ответ сервера, сохранил он нашу колоду или нет
+{  
+    if ds_map_find_value(global.JSmap, "valid")
+    {
+        with obj_Deck
+        {
+            if Active
+            {
+                script_execute(SaveDeck);
+                btn_SaveDeck.Active = false;
+                btn_SaveDeck.visible = false;
+            }
+        }
+    }       
+}
+
+//setDeckCards
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+else if Message = "createDeck" //Получаем ответ сервера, сохранил он нашу колоду или нет
+{  
+    if ds_map_find_value(global.JSmap, "valid")
+    {
+        with obj_Deck
+        {
+            if Active
+            {
+                script_execute(SaveDeck);
+                btn_SaveDeck.Active = false;
+                btn_SaveDeck.visible = false;
+            }
+        }
+    }       
+}
+
+//setDeckCards
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+else if Message = "deleteDeck" //Получаем ответ сервера, сохранил он нашу колоду или нет
+{  
+    if ds_map_find_value(global.JSmap, "valid")
+    {
+        script_execute(DeleteDeck);
+    }       
+}
+
+//deleteDeck
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

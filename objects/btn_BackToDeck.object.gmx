@@ -25,7 +25,13 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var Massive = "", k = 0;
+            <string>if !obj_GameController.ProgramClick
+{
+    if depth &gt; obj_Blocker.depth or obj_GameController.BlockAll
+    {exit;}
+}
+
+var Massive = "", k = 0;
 
 with obj_Card
 {
@@ -41,7 +47,7 @@ with obj_Card
 
 if k = 0
 {
-    script_execute(SetJSmap, "changeStartCards", "card_ids", Massive, "", "");
+    script_execute(SetJSmap, "changeStartCards", "card_ids", Massive, "", "", "", "");
     script_execute(SendToSrv);    
 }
 instance_destroy();

@@ -81,7 +81,7 @@ alarm_set(0, 150);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite(sp_Textbox, 0, x, y);
+            <string>draw_sprite(sp_Dialog, 0, x, y);
 draw_set_colour(c_white);
 draw_set_font(font0);
 draw_text(x, y, MessageText);

@@ -49,7 +49,11 @@ visible = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if depth &gt; obj_Blocker.depth {exit;}
+            <string>if !obj_GameController.ProgramClick
+{
+    if depth &gt; obj_Blocker.depth or obj_GameController.BlockAll
+    {exit;}
+}
 
 if Active 
 {

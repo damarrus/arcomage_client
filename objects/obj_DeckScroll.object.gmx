@@ -83,14 +83,15 @@ if Action
                 {
                     Usable = true;
                 }
-            }   
+            }
+            obj_GameController.BlockAll = false;   
         }
     }
     else    //Свиток задвигается 
     {
         if Part &lt;= (sprite_get_height(sp_DeckScroll) - 20) + 30 
         {
-            Part += 10;  
+            Part += 20;  
         }
         else
         {

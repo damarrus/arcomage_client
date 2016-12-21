@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>DeckID = round(real(obj_DeckManager.CurrentDeckNum));
+JustMove = false; //Если требуется только сместить колоды после удаления
 Moving = false;
 DeckName = obj_DeckManager.CurrentDeckName;
 SavedDeckName = DeckName;
@@ -34,6 +35,7 @@ Active = false;
 Usable = true;
 image_speed = 0;
 PositionY = y;
+Deleted = false;
 
 
 New = obj_DeckManager.New;
@@ -44,7 +46,8 @@ if New //Создаем массив с id карт, если колода но�
     
     for (var i = 0; i &lt;=(global.MaxDeck - 1); i = i + 1)
     {
-        CardsID[i] = 0;      
+        CardsID[i] = 0;
+        SavedCardsID[i] = 0;      
     }
 }
 else
@@ -92,8 +95,13 @@ SavedCardsInDeck = CardsInDeck; //Сохраняем сколько было к�
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if !Usable
-{exit;}
+            <string>if !obj_GameController.ProgramClick
+{
+    if depth &gt; obj_Blocker.depth or obj_GameController.BlockAll
+    {exit;}
+}
+
+if !Usable {exit;}
 
 if Active and btn_SaveDeck.visible
 {
@@ -103,7 +111,12 @@ if Active and btn_SaveDeck.visible
 }
 else if Active = false
 {
-    
+    script_execute(SetVisNewDeckBtn, false);
+    obj_GameController.BlockAll = true;
+    if obj_DeckManager.DecksCount = 1
+    {
+        script_execute(CreateScroll);        
+    }
     var ID = id;
     
     with (obj_Deck)
@@ -116,7 +129,7 @@ else if Active = false
         }
     }
     Active = true;
-    ScrollSpeed = - 10;
+    ScrollSpeed = - 20;
     
 }
 else if Active = true
@@ -126,7 +139,7 @@ else if Active = true
     {
         Usable = false; 
     }
-    ScrollSpeed = 10;
+    ScrollSpeed = 20;
     obj_DeckScroll.Shrinking = false;
     obj_DeckScroll.Action = true;
     
@@ -164,13 +177,15 @@ draw_sprite(sp_Deck, image_index ,x,y);
 
 if image_index &gt;= 0 and image_speed = 0
 {
-    draw_text(x, y - 20, DeckName + string(Active));
+    draw_text(x, y - 20, DeckName + " " + string(DeckID) + " " + string(Active) + " " + string(New));
     draw_text(x, y, CardsInDeck);
 }
 else if image_index &lt;= 0 and image_speed &lt; 0
 {
     image_speed = 0; 
-    image_index = 0;   
+    image_index = 0;
+    obj_GameController.BlockAll = false;
+    script_execute(SetVisNewDeckBtn, true);   
 }
 
 
@@ -205,7 +220,7 @@ if Moving
     
     if (abs(DestinationX - x) &lt; 1) and (abs(DestinationY - y) &lt; 1)
     {
-        
+          
         var ID = id;
         if Active
         { 
@@ -213,17 +228,52 @@ if Moving
         }
         else
         {
-            with (obj_Deck)
+            if Deleted
             {
-                Usable = true; 
-                if ID != id
+                var ID = DeckID;
+                instance_destroy();
+                with (obj_Deck)
                 {
-                    image_speed = -0.3;
+                    Usable = true; 
+                    if ID != id
+                    {
+                        image_speed = -0.3;
+                    }
+                    visible = true;
+                    Active = false; 
+                    
+                    if DeckID &gt;= ID
+                    {
+                        if !Deleted
+                        {
+                            DeckID -= 1;
+                            JustMove = true;
+                        }
+                        script_execute(SetCardMoving, x, ((y - sprite_get_height(sp_Deck)) - obj_DeckManager.DecksListYDist), 16);
+                        PositionY = ((y - sprite_get_height(sp_Deck)) - obj_DeckManager.DecksListYDist);
+                    }        
                 }
-                visible = true;
-                Active = false; 
+                if obj_DeckManager.DecksCount = 0
+                {
+                    script_execute(SetVisNewDeckBtn, true); 
+                    obj_GameController.BlockAll = false;
+                } 
             }
+            else
+            {
+                with (obj_Deck)
+                {
+                    Usable = true; 
+                    if ID != id
+                    {
+                        image_speed = -0.3;
+                    }
+                    visible = true;
+                    Active = false; 
+                }
+            }  
         }
+        JustMove = false;
         x = DestinationX;
         y = DestinationY;
         Moving = false;

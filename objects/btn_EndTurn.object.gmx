@@ -48,7 +48,14 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if obj_GameController.IsItMyTime
+            <string>if !obj_GameController.ProgramClick
+{
+    if depth &gt; obj_Blocker.depth or obj_GameController.BlockAll
+    {exit;}
+}
+
+
+if obj_GameController.IsItMyTime
 {
     with obj_Timer
     {

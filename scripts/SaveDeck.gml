@@ -21,24 +21,27 @@ with (obj_Deck)
         }
         
         var DeckString = "";
-        for (i = 0; i < obj_DeckManager.DecksCount; i += 1)
+        if !New
         {
-            DeckString = obj_DeckManager.Decks[i];
-            CheckString = string(DeckID) + "," + DeckName;
-            var MC;
-            MC[0] = "";
-            MC = script_execute(ParseCollection,obj_DeckManager.Decks[i]);
-            if string_count(CheckString, DeckString) > 0 and real(MC[0]) = DeckID
+            for (i = 0; i < obj_DeckManager.DecksCount; i += 1)
             {
-                obj_DeckManager.Decks[i] = string(DeckID) + "," + DeckName + "," + CardsIds;     
-            }    
+                DeckString = obj_DeckManager.Decks[i];
+                CheckString = string(DeckID) + "," + DeckName;
+                var MC;
+                MC[0] = "";
+                MC = script_execute(ParseCollection,obj_DeckManager.Decks[i]);
+                if string_count(CheckString, DeckString) > 0 and real(MC[0]) = DeckID
+                {
+                    obj_DeckManager.Decks[i] = string(DeckID) + "," + DeckName + "," + CardsIds;     
+                }    
+            }
+        }
+        else
+        {
+            obj_DeckManager.Decks[obj_DeckManager.DecksCount - 1] = string(DeckID) + "," + DeckName + "," + CardsIds;    
         }
         
-        script_execute(SetJSmap, "setDeckCards", "deck_num", DeckID, "card_ids", CardsIds);
-        script_execute(SendToSrv);  
-        
-        //script_execute(SetJSmap, "setDeckName", "deck_num", DeckID, "deck_name", DeckName);
-        //script_execute(SendToSrv);   
+        New = false;   
                          
     }    
 

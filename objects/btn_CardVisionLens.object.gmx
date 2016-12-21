@@ -48,7 +48,14 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var k = 0;
+            <string>if !obj_GameController.ProgramClick
+{
+    if depth &gt; obj_Blocker.depth or obj_GameController.BlockAll
+    {exit;}
+}
+
+
+var k = 0;
 with (obj_Card)
 {
     if !AtHand and Moving

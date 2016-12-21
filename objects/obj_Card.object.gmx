@@ -119,7 +119,7 @@ if obj_GameController.DiscardPhase and obj_GameController.DiscardPhaseNotSent
         }
     }
     Massive = string_delete(Massive, string_length(Massive), 1);
-    script_execute(SetJSmap, "changeStartCards", "card_ids", Massive, "", "");
+    script_execute(SetJSmap, "changeStartCards", "card_ids", Massive, "", "", "", "");
     script_execute(SendToSrv);
     obj_GameController.DiscardPhaseNotSent = false;
     exit;
@@ -241,8 +241,12 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if !obj_GameController.CardAvailable or depth &gt; obj_Blocker.depth or obj_GameController.DiscardPhase
-{exit;}
+            <string>if !obj_GameController.ProgramClick
+{
+    if !obj_GameController.CardAvailable or depth &gt; obj_Blocker.depth or obj_GameController.DiscardPhase or obj_GameController.BlockAll
+    {exit;}
+}
+
 //событие discard
 if obj_GameController.IsItMyTime and AtHand 
 {
@@ -254,7 +258,7 @@ if obj_GameController.IsItMyTime and AtHand
     }
     
     //Говорим серверу, что отправили туда определенную карту ID
-    script_execute(SetJSmap, "useCard", "card_id", CardID, "discard", true);
+    script_execute(SetJSmap, "useCard", "card_id", CardID, "discard", true, "", "");
     script_execute(SendToSrv);
         
     //Переносим карту в центр поля, убираем из руки, делаем неактивной
@@ -303,8 +307,13 @@ if obj_GameController.IsItMyTime and AtHand
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if !obj_GameController.CardAvailable or depth &gt; obj_Blocker.depth 
-{exit;}
+            <string>if !obj_GameController.ProgramClick
+{
+    if !obj_GameController.CardAvailable or depth &gt; obj_Blocker.depth or obj_GameController.BlockAll
+    {exit;}
+}
+
+
 
 if obj_GameController.DiscardPhase
 {
@@ -365,7 +374,7 @@ if obj_GameController.IsItMyTime and AtHand and (CardRes1 &lt;= ResourceStorage1
     obj_CurrentCard.CardEnemyGen3 = CardEnemyGen3;
     
     //Говорим серверу, что отправили туда определенную карту ID
-    script_execute(SetJSmap, "useCard", "card_id", CardID, "discard", false);
+    script_execute(SetJSmap, "useCard", "card_id", CardID, "discard", false, "", "");
     script_execute(SendToSrv);
         
     //Переносим карту в центр поля, убираем из руки, делаем неактивной

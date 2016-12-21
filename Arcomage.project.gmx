@@ -67,6 +67,7 @@
       <script>scripts\ParseCollection.gml</script>
     </scripts>
     <scripts name="GameAction">
+      <script>scripts\SetVisNewDeckBtn.gml</script>
       <script>scripts\PlayCurrentCard.gml</script>
       <script>scripts\SetStatsAfterTurn.gml</script>
       <script>scripts\GetCardFromDBbyID.gml</script>
@@ -78,6 +79,7 @@
       <script>scripts\WrongLoginOk.gml</script>
       <script>scripts\RestoreSavedDeck.gml</script>
       <script>scripts\SaveDeck.gml</script>
+      <script>scripts\DeleteDeck.gml</script>
       <script>scripts\ChooseDeck.gml</script>
       <script>scripts\EndTurn.gml</script>
     </scripts>
@@ -147,6 +149,7 @@
         <object>objects\btn_TArrow</object>
         <object>objects\btn_BArrow</object>
         <object>objects\btn_SaveDeck</object>
+        <object>objects\btn_DeleteDeck</object>
         <object>objects\btn_ChooseDeck</object>
       </objects>
       <object>objects\obj_DeckManager</object>

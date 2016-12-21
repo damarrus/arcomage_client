@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if room = 2 //Если мы на игровом поле, а не в меню
+            <string>BlockAll = false;
+ProgramClick = false;
+if room = 2 //Если мы на игровом поле, а не в меню
 {
     FirstPlayer     = true; //Получаем зеркальное отображение таверов
     IsItMyTime      = false; 
@@ -36,7 +38,7 @@
     DiscardPhase    = true;
     DiscardPhaseNotSent = true; //При удалении первой карты отправляется месседж о всех остальных сброшенных картах 
     
-    script_execute(SetJSmap, "ready", "", "", "", ""); //Запрашиваем начальные карты
+    script_execute(SetJSmap, "ready", "", "", "", "", "", ""); //Запрашиваем начальные карты
     script_execute(SendToSrv);
     
     PlayedCards[0,0] = 0;
@@ -66,23 +68,21 @@
 }
 else if room = 1 //Если мы в меню
 {
-    script_execute(SetJSmap, "getCollection", "", "", "", "");
-    script_execute(SendToSrv);
+    
+    if global.CollectionCardsCount = ""
+    {
+        script_execute(SetJSmap, "getCollection", "", "", "", "", "", "");
+        script_execute(SendToSrv);
+    }
 }
 else if room = 0 //Если мы в окне авторизации
 {
-    //Проверяем создана ли у клиента общая база карт
-    if !file_exists("CardDB.adbf") 
-    {           
-        script_execute(SetJSmap, "getDatabaseCards", "file_db", false, "", "");
-        script_execute(SendToSrv);
-    }
-    else 
-    {   
-        //script_execute(SetJSmap, "getDatabaseCards", string(md5_file(CardDatabase.adbf)), "", "", "");
-        script_execute(SetJSmap, "getDatabaseCards", "file_db", false, "", "");
-        script_execute(SendToSrv);   
-    }
+            
+    //script_execute(SetJSmap, "getDatabaseCards", "file_db", false, "", "", "", "");
+    //script_execute(SendToSrv);
+     
+    script_execute(SetJSmap, "checkHash", "hash", string(md5_file("CardDB.adbf")), "", "", "", "");
+    script_execute(SendToSrv);
           
 }
 
@@ -132,12 +132,8 @@ else if room = 0 //Если мы в окне авторизации
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var i = 0;
-with obj_Card
-{
-    i += 1;
-}
-show_message(i);
+            <string>//script_execute(CreateMultiDialog, 800, 500, "script", "Kakashkiii" ,"Bddddddddddddddddddddddddddut", "btn1", "dsadsasdas", "dasdasasdasadsa","dsaadasddas","daasdasd")
+
 </string>
           </argument>
         </arguments>

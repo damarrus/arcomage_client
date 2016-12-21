@@ -48,11 +48,16 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if depth &gt; obj_Blocker.depth {exit;}
+            <string>if !obj_GameController.ProgramClick
+{
+    if depth &gt; obj_Blocker.depth or obj_GameController.BlockAll
+    {exit;}
+}
+
 
 visible = false;
-
-script_execute(SetJSmap, "unAuth", "", "", "","");
+global.CollectionCardsCount = "";
+script_execute(SetJSmap, "unAuth", "", "", "","", "", "");
 script_execute(SendToSrv);
 
 if instance_exists(btn_Search)
