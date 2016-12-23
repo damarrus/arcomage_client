@@ -31,6 +31,10 @@ with (obj_Deck)
                 }
             }
             
+        }
+        if DeckID = global.DeckForGame
+        {
+            global.DeckForGame = 0;    
         } 
         obj_DeckManager.DecksCount -= 1;
         Deleted = true;

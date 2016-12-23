@@ -55,9 +55,21 @@ Active = true;
     {exit;}
 }
 
+if btn_SaveDeck.visible
+{
+    script_execute(ShowMiniWarn, "U have unsaved changes");    
+}
+else if global.DeckForGame = 0
+{
+    script_execute(ShowMiniWarn, "Choose deck for game!");         
+}
+else
+{
+    script_execute(SetJSmap, "gameWithBot", "deck_num", global.DeckForGame, "","", "", "");
+    script_execute(SendToSrv);    
+}
 
-script_execute(SetJSmap, "gameWithBot", "deck_num", global.DeckForGame, "","", "", "");
-script_execute(SendToSrv);
+
 
 
 

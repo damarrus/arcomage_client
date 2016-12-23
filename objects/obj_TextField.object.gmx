@@ -25,49 +25,12 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>Type = obj_Loginbox.FieldType; //Тип поля, или для логина, или для пароль
-UpperCase = false;
-New = true;
-//Получаем последний логин с которого был успешный вход
-var SavedLogin;
-ini_open("Settings.ini");
-SavedLogin = ini_read_string("LoginBox", "LastLogin", ""); 
-ini_close();
+            <string>UpperCase = false;
 
-if Type = "Login"
-{
-    if SavedLogin &lt;&gt; ""
-    {
-        Text = SavedLogin;
-        New = false;
-        Active = false;
-        SprNum = 0;
-    }
-    else
-    {
-        Text = "Enter ur login"
-        Active = true;
-        SprNum = 1;
-    }
-    TextSecret = "";    
-    
-}
-else
-{
+Text = obj_TextDialog.InitialText;
+Active = true;
+SprNum = 1;
 
-    Text = "Enter ur password";
-    TextSecret = "Enter ur password";
-    if SavedLogin &lt;&gt; ""
-    {
-        Active = true;
-        SprNum = 1;
-    }
-    else
-    {
-        Active = false;
-        SprNum = 0;
-    }
-}
 </string>
           </argument>
         </arguments>
@@ -94,60 +57,9 @@ else
 {
    
     Text = string_delete(Text, string_length(Text) , 1);    
-    TextSecret = string_delete(TextSecret, string_length(TextSecret) , 1);
     alarm_set(0, 2); 
 
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="6" enumb="7">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if !obj_Loginbox.Active
-{
-    exit;
-}
-
-var ID = id;
-with (obj_LogPassField)
-{
-    if id = ID
-    {
-        Active = true;
-        SprNum = 1;
-    }
-    else
-    {
-        Active = false;
-        SprNum = 0;
-        
-    }
-}
-
-if New
-{
-    Text = "";
-    TextSecret = "";
-    New = false;
-}
-
 </string>
           </argument>
         </arguments>
@@ -174,15 +86,7 @@ if New
 draw_set_font(LoginTB);
 draw_set_halign(fa_center);
 draw_set_colour(c_white);
-if Type = "Login"
-{
-    draw_text(x, y - 16, Text);
-}
-else
-{
-    draw_text(x, y - 16, TextSecret);
-}
-
+draw_text(x, y - 16, Text);
 </string>
           </argument>
         </arguments>
@@ -205,33 +109,7 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if !obj_Loginbox.Active
-{
-    exit;
-}
-
-if keyboard_check_direct(vk_tab)
-{
-    if keyboard_check_pressed(vk_tab)
-    {
-        with (obj_LogPassField)
-        {
-            Active = !Active;
-            if Active
-            {
-                SprNum = 1;
-            }
-            else
-            {
-                SprNum = 0;
-            }
-        }
-        keyboard_clear(vk_tab);
-    }    
-        
-}
-
-if Active
+            <string>if Active
 {
 
     if keyboard_check_direct(vk_lshift)
@@ -240,12 +118,6 @@ if Active
     }
     
     symbol = "";
-    if New
-    {
-        Text = "";
-        TextSecret = "";
-        New = false;
-    }
     
     if !(keyboard_key = 8) and string_length(Text) &lt; 20
     {
@@ -273,21 +145,16 @@ if Active
             case 106: Symbol = ""; break;
             case 107: Symbol = ""; break;
             case 109: Symbol = ""; break;
-            case 111: Symbol = ""; break;
             case 110: Symbol = ""; break;
+            case 111: Symbol = ""; break;
         }
         
         Text = Text + Symbol;
-        if Symbol &lt;&gt; ""
-        {
-            TextSecret = TextSecret + "*";
-        } 
 
     }
     else if (keyboard_key = 8)
     {
             Text = string_delete(Text, string_length(Text) , 1);
-            TextSecret = string_delete(TextSecret, string_length(TextSecret) , 1);
             Backspacing = true;
             alarm_set(0, 10); 
         
@@ -316,14 +183,9 @@ if Active
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if !obj_Loginbox.Active
+            <string>if Active
 {
-    exit;
-}
-
-if Active
-{
-UpperCase = false;
+    UpperCase = false;
 }
 </string>
           </argument>
@@ -347,12 +209,7 @@ UpperCase = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if !obj_Loginbox.Active
-{
-    exit;
-}
-
-if Active
+            <string>if Active
 {
     Backspacing = false;
 }

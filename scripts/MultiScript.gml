@@ -4,5 +4,6 @@ if Script = ""{}
 
 else if Script = "RestoreSavedDeck" {script_execute(RestoreSavedDeck);}
 else if Script = "WrongLoginOk" {script_execute(WrongLoginOk);}
+else if Script = "ChangeDeckName" {script_execute(ChangeDeckName);}
 
 

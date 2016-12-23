@@ -76,7 +76,7 @@ else
         btn_TArrow.visible = false;
         btn_BArrow.visible = false;
         btn_ChooseDeck.visible = false;
-        script_execute(SetVisNewDeckBtn, true);
+        script_execute(SetVisNewDeckBtn, false);
         script_execute(DelCardManagerObjects);
         Opened = false;
     }

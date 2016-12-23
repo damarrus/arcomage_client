@@ -68,12 +68,9 @@ if room = 2 //Если мы на игровом поле, а не в меню
 }
 else if room = 1 //Если мы в меню
 {
+
+    script_execute(AskCollection);    
     
-    if global.CollectionCardsCount = ""
-    {
-        script_execute(SetJSmap, "getCollection", "", "", "", "", "", "");
-        script_execute(SendToSrv);
-    }
 }
 else if room = 0 //Если мы в окне авторизации
 {
@@ -110,30 +107,6 @@ else if room = 0 //Если мы в окне авторизации
           <argument>
             <kind>1</kind>
             <string>script_execute(ListenServer);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="101">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>//script_execute(CreateMultiDialog, 800, 500, "script", "Kakashkiii" ,"Bddddddddddddddddddddddddddut", "btn1", "dsadsasdas", "dasdasasdasadsa","dsaadasddas","daasdasd")
-
 </string>
           </argument>
         </arguments>

@@ -67,6 +67,7 @@
       <script>scripts\ParseCollection.gml</script>
     </scripts>
     <scripts name="GameAction">
+      <script>scripts\AskCollection.gml</script>
       <script>scripts\SetVisNewDeckBtn.gml</script>
       <script>scripts\PlayCurrentCard.gml</script>
       <script>scripts\SetStatsAfterTurn.gml</script>
@@ -78,6 +79,8 @@
       <script>scripts\SetCardInDeckVision.gml</script>
       <script>scripts\WrongLoginOk.gml</script>
       <script>scripts\RestoreSavedDeck.gml</script>
+      <script>scripts\ChangeDeckName.gml</script>
+      <script>scripts\ChangeDeckNameInManager.gml</script>
       <script>scripts\SaveDeck.gml</script>
       <script>scripts\DeleteDeck.gml</script>
       <script>scripts\ChooseDeck.gml</script>
@@ -91,6 +94,7 @@
       <scripts name="MultiScripts">
         <script>scripts\MultiScript.gml</script>
         <script>scripts\CreateMultiDialog.gml</script>
+        <script>scripts\CreateTextDialog.gml</script>
       </scripts>
       <script>scripts\SetBlockerDepth.gml</script>
     </scripts>
@@ -129,6 +133,10 @@
       <objects name="MultiDialog">
         <object>objects\btn_Super</object>
         <object>objects\obj_MultiDialog</object>
+        <objects name="TextDialog">
+          <object>objects\obj_TextDialog</object>
+          <object>objects\obj_TextField</object>
+        </objects>
       </objects>
       <objects name="LoginBox">
         <object>objects\obj_Loginbox</object>

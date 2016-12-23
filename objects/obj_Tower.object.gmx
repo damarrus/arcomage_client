@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>MaxTower = 60;
+            <string>MaxTower = 100;
 Ground = 400;
 
 Resx = 160;
@@ -55,7 +55,6 @@ ResxInc = 90;
           <argument>
             <kind>1</kind>
             <string>
-
 draw_sprite_ext(sp_background,0, sprite_get_width(sp_background)/2, sprite_get_height(sp_background)/2, 1, 1,0,c_white,1);
 
 

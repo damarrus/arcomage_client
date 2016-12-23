@@ -54,22 +54,37 @@
     {exit;}
 }
 
-
-visible = false;
-global.CollectionCardsCount = "";
-script_execute(SetJSmap, "unAuth", "", "", "","", "", "");
-script_execute(SendToSrv);
-
-if instance_exists(btn_Search)
+if btn_SaveDeck.visible
 {
-btn_Search.Active = false;
+    script_execute(ShowMiniWarn, "U have unsaved changes");    
 }
-
-if instance_exists(btn_Botgame)
+else
 {
-btn_Botgame.Active = false;
+    with btn_DeckManager
+    {
+        if Opened
+        {   
+            obj_GameController.ProgramClick = true;
+            event_perform(ev_mouse, ev_left_release);
+            obj_GameController.ProgramClick = false;
+        }
+    }
+    Active  = false;
+    visible = false;
+    global.CollectionCardsCount = "";
+    script_execute(SetJSmap, "unAuth", "", "", "","", "", "");
+    script_execute(SendToSrv);
+    
+    if instance_exists(btn_Search)
+    {
+    btn_Search.Active = false;
+    }
+    
+    if instance_exists(btn_Botgame)
+    {
+    btn_Botgame.Active = false;
+    }
 }
-
 
 
 

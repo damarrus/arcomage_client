@@ -36,16 +36,24 @@ else if Message = "auth" //Авторизуемся
         ini_close();
         
         //Если авторизовались - делаем кнопку разовтаризации видимой
-        if instance_exists(btn_UnAuth) 
+        if room = 1 
         {
-            btn_UnAuth.Visible = true;
+            script_execute(AskCollection);   
         }
         
         //Записываем логин, ник в глобальные, закрываем логинбокс, переходим в комнату меню/обновляем ее
         global.PLogin = obj_Loginbox.Login;
         global.PlayerName = ds_map_find_value(global.JSmap, "player_name"); 
         obj_Loginbox.Done = true;
-     
+        
+        ini_open(global.PLogin + "/Settings.ini");
+        global.DeckForGame = round(ini_read_real("DeckForGame", "ChoseDeck", 0));
+        ini_close();
+        
+        with obj_Loginbox       {instance_destroy();}
+        with obj_LogPassField   {instance_destroy();}
+        with btn_LoginBtn       {instance_destroy();}
+        with btn_UnAuth         {Active = true; visible = true;}
         room_goto(Menu);
     }
     else
@@ -87,8 +95,8 @@ else if Message = "getCardOpponent" //получаем ход мой/не мой
     
     
     
-    instance_create(room_width - 100, 0, obj_Card);  
-    
+    instance_create(room_width - 100, 0, obj_Card);
+     
     if obj_GameController.Shrank = true
     {
     script_execute(ShrinkNGrow);

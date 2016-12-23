@@ -25,10 +25,17 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_xscale = obj_MultiDialog.BtnXScale;
+            <string>if instance_exists(obj_MultiDialog)
+{
+image_xscale = obj_MultiDialog.BtnXScale;
 BtnText = obj_MultiDialog.CurrBtnText; //Текст, будет выведен на кнопку
 BtnScript = obj_MultiDialog.CurrBtnScript; //Идентифатор скрипта, который будет выполнен при нажатии кнопки, работает через switch
-
+}
+else if instance_exists(obj_TextDialog)
+{
+BtnText = obj_TextDialog.CurrBtnText; //Текст, будет выведен на кнопку
+BtnScript = obj_TextDialog.CurrBtnScript; //Идентифатор скрипта, который будет выполнен при нажатии кнопки, работает через switch
+}
 </string>
           </argument>
         </arguments>
@@ -59,7 +66,17 @@ with (obj_MultiDialog)
     instance_destroy();
 }
 
+with (obj_TextDialog)
+{
+    instance_destroy();
+}
+
 with (btn_Super)
+{
+    instance_destroy();
+}
+
+with (obj_TextField)
 {
     instance_destroy();
 }
