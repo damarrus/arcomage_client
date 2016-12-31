@@ -2,33 +2,43 @@ CardsOnPage = obj_DeckManager.CardsInRow * obj_DeckManager.CardsInCol; //Все�
 
 From = obj_DeckManager.Page * CardsOnPage - (CardsOnPage - 1) - 1; //Определяем начальный id карты с которого начнем лист  
 
-if global.DatabaseCardsCount < obj_DeckManager.Page * CardsOnPage
-{
-    To = global.CollectionCardsCount - 1;
-}
-else
-{
-    To = obj_DeckManager.Page * CardsOnPage - 1;
-}
 
 var i = 1;
+var FilteredCollection = script_execute(FilterCollection);
 
-jEnd = array_length_1d(obj_DeckManager.CardCollection);
- 
-
-for (j = 0; j < jEnd; j = j + 1)
+jEnd = array_length_1d(FilteredCollection);
+var isEmpty = false;
+if FilteredCollection[0] = 0
 {
-          
-    if j >= From and j <=To
-    {   
-        script_execute(GetCardFromDBbyID, obj_DeckManager.CardCollection[j]);        
-        script_execute(SetCurrCard, false);
-        script_execute(CreateCardAtDeckManager, i);
-        i += 1;
-          
-    }    
-     
+    isEmpty = true;    
 }
 
+if !isEmpty
+{
+
+    if global.DatabaseCardsCount < obj_DeckManager.Page * CardsOnPage
+    {
+        To = jEnd - 1;
+    }
+    else
+    {
+        To = obj_DeckManager.Page * CardsOnPage - 1;
+    } 
+    
+    
+    for (var j = 0; j < jEnd; j = j + 1)
+    {
+              
+        if j >= From and j <=To
+        {   
+            script_execute(GetCardFromDBbyID, FilteredCollection[j]);        
+            script_execute(SetCurrCard, false);
+            script_execute(CreateCardAtDeckManager, i);
+            i += 1;
+        }    
+         
+    }
+    
+}
 
 

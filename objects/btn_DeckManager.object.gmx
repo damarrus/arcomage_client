@@ -63,6 +63,7 @@ if !Opened
     btn_TArrow.visible = true;
     btn_BArrow.visible = true;
     btn_ChooseDeck.visible = true;
+    instance_create(obj_DeckManager.DecksListX - 280, obj_DeckManager.DecksListY + 600, btn_Filters); 
     script_execute(SetVisNewDeckBtn, true);
     script_execute(ShowCardPage);
     script_execute(CreateDecksFromArray);

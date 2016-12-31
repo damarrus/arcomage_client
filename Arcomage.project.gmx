@@ -7,6 +7,7 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\sp_DeckScroll</sprite>
+    <sprite>sprites\sp_FilterScroll</sprite>
     <sprite>sprites\sp_Button</sprite>
     <sprite>sprites\sp_TextField</sprite>
     <sprite>sprites\sp_Dialog</sprite>
@@ -22,6 +23,7 @@
     <sprite>sprites\sp_Textbox</sprite>
     <sprite>sprites\sp_Loginbox</sprite>
     <sprite>sprites\sp_Search</sprite>
+    <sprite>sprites\sp_FilterInList</sprite>
     <sprite>sprites\sp_CardInList</sprite>
     <sprite>sprites\sp_Menu</sprite>
     <sprite>sprites\sp_background</sprite>
@@ -52,6 +54,7 @@
       <script>scripts\ShrinkNGrow.gml</script>
       <script>scripts\SetCardUsable.gml</script>
       <script>scripts\CreateScroll.gml</script>
+      <script>scripts\CreateFilterScroll.gml</script>
       <script>scripts\SetCardMoving.gml</script>
     </scripts>
     <scripts name="Network">
@@ -70,6 +73,7 @@
       <script>scripts\AskCollection.gml</script>
       <script>scripts\SetVisNewDeckBtn.gml</script>
       <script>scripts\PlayCurrentCard.gml</script>
+      <script>scripts\FilterCollection.gml</script>
       <script>scripts\SetStatsAfterTurn.gml</script>
       <script>scripts\GetCardFromDBbyID.gml</script>
       <script>scripts\SetCurrCard.gml</script>
@@ -163,6 +167,11 @@
       <object>objects\obj_DeckManager</object>
       <object>objects\obj_DeckScroll</object>
       <object>objects\obj_Deck</object>
+      <objects name="Filters">
+        <object>objects\btn_Filters</object>
+        <object>objects\obj_FilterElem</object>
+        <object>objects\obj_FilterScroll</object>
+      </objects>
     </objects>
   </objects>
   <rooms name="rooms">

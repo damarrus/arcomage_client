@@ -14,4 +14,9 @@ with (obj_DeckScroll)
 {
     instance_destroy();
 }
+with (btn_Filters)
+{
+    instance_destroy();
+}
+
 
