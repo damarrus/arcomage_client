@@ -103,6 +103,7 @@ draw_text(x, y, MessageText);
             <kind>1</kind>
             <string>if MessageText = "Defeat" or MessageText = "Victory!"
 {
+    script_execute(CleanMemDll);
     room_goto(Menu);
 }
 

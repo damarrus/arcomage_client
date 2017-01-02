@@ -135,7 +135,7 @@ draw_text( x, y + 400, Page);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>instance_number
+            <string>script_execute(CleanMemDll);
 </string>
           </argument>
         </arguments>

@@ -18,5 +18,6 @@ with (btn_Filters)
 {
     instance_destroy();
 }
+script_execute(CleanMemDll);
 
 

@@ -66,9 +66,21 @@ else if global.DeckForGame = 0
 }
 else
 {
-    script_execute(SetJSmap, "searchGame", "deck_num", global.DeckForGame, "","", "", "");
-    script_execute(SendToSrv);
-    Searching = !Searching;
+    switch btn_GameMode.Text
+    {
+        case "Normal": 
+        {
+            script_execute(SetJSmap, "searchGame", "deck_num", global.DeckForGame, "","", "", "");
+            script_execute(SendToSrv);
+            Searching = !Searching;
+            
+        }; break;
+        case "Versus bot": 
+        {
+            script_execute(SetJSmap, "gameWithBot", "deck_num", global.DeckForGame, "","", "", "");
+            script_execute(SendToSrv);    
+        }; break;
+    }   
 }
 
 

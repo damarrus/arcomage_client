@@ -3,7 +3,10 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <NewExtensions/>
+  <datafiles number="1" name="datafiles"/>
+  <NewExtensions>
+    <extension index="0">extensions\CleanMem</extension>
+  </NewExtensions>
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\sp_DeckScroll</sprite>
@@ -103,6 +106,7 @@
         <script>scripts\CreateTextDialog.gml</script>
       </scripts>
       <script>scripts\SetBlockerDepth.gml</script>
+      <script>scripts\CleanMemDll.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">

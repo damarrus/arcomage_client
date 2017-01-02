@@ -54,6 +54,7 @@ else if Message = "auth" //Авторизуемся
         with obj_LogPassField   {instance_destroy();}
         with btn_LoginBtn       {instance_destroy();}
         with btn_UnAuth         {Active = true; visible = true;}
+        script_execute(CleanMemDll);
         room_goto(Menu);
     }
     else
@@ -137,6 +138,7 @@ else if Message = "opponentStatus"
 
 else if Message = "gameStart" 
 {
+    script_execute(CleanMemDll);
     room_goto(PlayField);
 }
 
