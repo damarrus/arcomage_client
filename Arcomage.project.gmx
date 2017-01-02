@@ -7,6 +7,7 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\sp_DeckScroll</sprite>
+    <sprite>sprites\sp_ModeScroll</sprite>
     <sprite>sprites\sp_FilterScroll</sprite>
     <sprite>sprites\sp_Button</sprite>
     <sprite>sprites\sp_TextField</sprite>
@@ -55,6 +56,7 @@
       <script>scripts\SetCardUsable.gml</script>
       <script>scripts\CreateScroll.gml</script>
       <script>scripts\CreateFilterScroll.gml</script>
+      <script>scripts\CreateModeScroll.gml</script>
       <script>scripts\SetCardMoving.gml</script>
     </scripts>
     <scripts name="Network">
@@ -148,6 +150,11 @@
         <object>objects\btn_LoginBtn</object>
       </objects>
       <object>objects\btn_EndTurn</object>
+      <objects name="GameMode">
+        <object>objects\btn_GameMode</object>
+        <object>objects\obj_ModeElem</object>
+        <object>objects\obj_ModeScroll</object>
+      </objects>
     </objects>
     <object>objects\btn_TB</object>
     <objects name="DeckManager">

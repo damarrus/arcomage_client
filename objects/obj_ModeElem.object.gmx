@@ -25,13 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>Num = obj_FilterScroll.CurrFilterCount;
-Text = btn_Filters.List[Num];
+            <string>Num = obj_ModeScroll.CurrModeCount;
+Text = btn_GameMode.List[Num];
 
-if obj_DeckManager.Filters[Num]
-{SpNum = 1;}
-else
-{SpNum = 0;}
 </string>
           </argument>
         </arguments>
@@ -60,35 +56,16 @@ else
     {exit;}
 }
 
-if !btn_Filters.Usable {exit;}
+if !btn_GameMode.Usable {exit;}
 
-if SpNum = 1
+obj_GameController.ProgramClick = true;
+with btn_GameMode
 {
-    SpNum = 0;
-    obj_DeckManager.Filters[Num] = false;
-} 
-else
-{
-    SpNum = 1;
-    obj_DeckManager.Filters[Num] = true;
-    
-} 
-
-obj_DeckManager.Page = 1;
-script_execute(ClearPage);
-script_execute(ShowCardPage);
-script_execute(SetCardInDeckVision);
-
-btn_BArrow.Active = false;
-
-if obj_DeckManager.Page != obj_DeckManager.LastPage
-{
-    btn_TArrow.Active = true;
+event_perform(ev_mouse, ev_left_release);
 }
-else
-{
-    btn_TArrow.Active = false;;
-}
+obj_GameController.ProgramClick = false;
+
+btn_GameMode.Text = Text;
 
 
 </string>
@@ -113,7 +90,7 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite(sp_FilterInList, SpNum, x, y);
+            <string>draw_sprite(sp_FilterInList, 0, x, y);
 draw_set_font(font1);
 draw_set_colour(c_black);
 draw_text(x, y - 10, Text);

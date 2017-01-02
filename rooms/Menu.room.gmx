@@ -65,6 +65,7 @@ if global.CollectionCardsCount != ""
     <instance objName="obj_Blocker" x="1120" y="512" name="inst_367BA86E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="btn_DeleteDeck" x="1216" y="64" name="inst_34BDE876" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="btn_NewDeck" x="960" y="64" name="inst_8C098078" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="btn_GameMode" x="1792" y="96" name="inst_C86A8B49" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
