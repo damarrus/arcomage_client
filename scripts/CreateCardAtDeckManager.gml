@@ -25,7 +25,7 @@ else
     ColNmb = CardNumber - (RowNmb - 1) * obj_DeckManager.CardsInRow;
 }
 
-instance_create(obj_DeckManager.x - 200 + (XDist * ColNmb), obj_DeckManager.y - 600 + (YDist * RowNmb), obj_CardOnPage);
+instance_create(obj_DeckManager.x - 800 + (XDist * ColNmb), obj_DeckManager.y - 520 + (YDist * RowNmb), obj_CardOnPage);
 
 
 

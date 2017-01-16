@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>script_execute(SetBlockerDepth);
+            <string>NeedToDelete = true;
+script_execute(SetBlockerDepth);
 </string>
           </argument>
         </arguments>

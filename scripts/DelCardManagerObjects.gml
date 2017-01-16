@@ -6,18 +6,15 @@ with (obj_CardInList)
 {
     instance_destroy();
 }
-with (obj_Deck)
+with (obj_DeckScrollNew)
 {
     instance_destroy();
 }
-with (obj_DeckScroll)
+with (btn_FilterOpen)
 {
     instance_destroy();
 }
-with (btn_Filters)
-{
-    instance_destroy();
-}
+
 script_execute(CleanMemDll);
 
 

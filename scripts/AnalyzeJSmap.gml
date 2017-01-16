@@ -192,6 +192,10 @@ else if Message = "getCollectionCardsCount"
 {
     
     global.CollectionCardsCount = ds_map_find_value(global.JSmap, "value"); //Получаем сколько карт у нас всего в игре
+    
+    with obj_DeckManager
+    {instance_destroy()};
+    
     instance_create(100, 100, obj_DeckManager);
     //show_message("В коллекции " + string(ds_map_find_value(global.JSmap, "value")));
    
@@ -224,9 +228,16 @@ else if Message = "getDatabaseCards"
 
 else if Message = "checkHash" 
 {
- 
-    instance_create(room_width/2, room_height/2, obj_Loginbox);          
-        
+    if ds_map_find_value(global.JSmap, "valid")
+    {
+        instance_create(room_width/2, room_height/2, obj_Loginbox);     
+    }
+    else
+    {
+        ini_open("Settings.ini");
+        ini_write_real("DataBase", "BaseVersion", ds_map_find_value(global.JSmap, "hash"));     
+        ini_close(); 
+    }
 }
 //checkHash
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -247,15 +258,11 @@ else if Message = "setDeckCards" //Получаем ответ сервера, �
 {  
     if ds_map_find_value(global.JSmap, "valid")
     {
-        with obj_Deck
-        {
-            if Active
-            {
-                script_execute(SaveDeck);
-                btn_SaveDeck.Active = false;
-                btn_SaveDeck.visible = false;
-            }
-        }
+        
+        script_execute(SaveDeck);
+        btn_SaveDeck.Active = false;
+        btn_SaveDeck.visible = false;
+         
     }       
 }
 
@@ -266,15 +273,9 @@ else if Message = "createDeck" //Получаем ответ сервера, с�
 {  
     if ds_map_find_value(global.JSmap, "valid")
     {
-        with obj_Deck
-        {
-            if Active
-            {
-                script_execute(SaveDeck);
-                btn_SaveDeck.Active = false;
-                btn_SaveDeck.visible = false;
-            }
-        }
+        script_execute(SaveDeck);
+        btn_SaveDeck.Active = false;
+        btn_SaveDeck.visible = false;
     }       
 }
 
@@ -291,4 +292,26 @@ else if Message = "deleteDeck" //Получаем ответ сервера, с�
 
 //deleteDeck
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+else if Message = "setDeckName" //Получаем ответ сервера, сохранил он нашу колоду или нет
+{  
+    if ds_map_find_value(global.JSmap, "valid")
+    {
+        obj_DeckListLens.DeckName = obj_TextField.Text;
+        script_execute(ChangeDeckNameInManager);
+        
+        with obj_TextDialog
+        {instance_destroy();}
+        with obj_MultiDialog
+        {instance_destroy();}
+        with obj_TextField
+        {instance_destroy();}
+        with btn_Super
+        {instance_destroy();}
+    }       
+}
+
+//setDeckName
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 

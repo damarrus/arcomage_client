@@ -1,30 +1,18 @@
-obj_DeckManager.TempCardsID[0] = "";
 var DeckFounded = false;
-with (obj_Deck) //Находим колоду, которая в данный момент активна
-{
-    if Active
-    {
-        DeckFounded = true;
-        for (var i = 0; i <=(global.MaxDeck - 1); i = i + 1)
-        { 
-            obj_DeckManager.TempCardsID[i] = CardsID[i];    
-        } 
-    }
-}
-var YetInDeck = false;
+var YetInDeck;
 
-if DeckFounded
+if obj_DeckListLens.DeckName != ""
 {
     with (obj_CardOnPage) //Ищем карту в найденной активной колоде
     {
         
-        for (i = 0; i <=(global.MaxDeck - 1); i = i + 1)
+        for (var i = 0; i <=(global.MaxDeck - 1); i = i + 1)
         {
             YetInDeck = false;
-            //show_message(string(CardID) + " " + string(obj_DeckManager.TempCardsID[i])); 
             
-            if real(CardID) = real(obj_DeckManager.TempCardsID[i]) //Если карта найдена
-            {        
+            if real(CardID) = real(obj_DeckListLens.DeckCards[i]) //Если карта найдена
+            {
+                //show_message(string(CardID) + " " + string(obj_DeckListLens.DeckCards[i]));
                 YetInDeck = true;
                 break;   
             }

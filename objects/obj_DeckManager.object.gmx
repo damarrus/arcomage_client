@@ -2,8 +2,8 @@
 <object>
   <spriteName>sp_DeckManager</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
-  <depth>0</depth>
+  <visible>0</visible>
+  <depth>-2</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -26,8 +26,8 @@
           <argument>
             <kind>1</kind>
             <string>visible = false;
-x = 680; 
-y = 520;
+x = room_width/2; 
+y = room_height/2;
 
 for (var i = 0; i &lt;= 5; i += 1)
 {
@@ -40,10 +40,10 @@ DecksListYDist = 10;    //вертикальная дистанция между
 
 CardsListX = x - 550;   //место где начинается список карт в колоде
 CardsListY = y - 400;   //место где начинается список карт в колоде
-CardsListYDist = -15;    //вертикальная дистанция между картами
+CardsListYDist = 12;    //вертикальная дистанция между картами
 
 Page = 1; //Начальная страница
-CardsInRow = 3; //Кол-во столбцов карт на листе
+CardsInRow = 4; //Кол-во столбцов карт на листе
 CardsInCol = 2; //Кол-во строк карт на листе
 
 //Создаем данные(пока пустые), которые будут переноситься в колоду при ее создании
@@ -59,10 +59,12 @@ New = false;
 
 LastPage = ((global.CollectionCardsCount - 1) div (CardsInRow * CardsInCol)) + 1;
 
-instance_create( x - 100, y + 400, btn_BArrow);
-instance_create( x + 100, y + 400, btn_TArrow);
-instance_create( x + 300, y + 400, btn_SaveDeck);
-instance_create( x + 450, y + 400, btn_ChooseDeck);
+instance_create( x - 100, y + 475, btn_BArrow);
+instance_create( x + 100, y + 475, btn_TArrow);
+instance_create( x + 567, y - 360, btn_SaveDeck);
+instance_create( x + 755, y - 360, btn_DeleteDeck);
+instance_create( x + 980, y + 120.5, obj_CardList);
+instance_create( obj_StaticMetalBg.x, obj_StaticMetalBg.y, obj_DeckListLens);
 
 //script_execute(GetCardPage);
 //script_execute(CreateDecksFromFile);
@@ -88,87 +90,7 @@ instance_create( x + 450, y + 400, btn_ChooseDeck);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite(sp_DeckManager, 0, x,y);
-draw_text( x, y + 400, Page);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="1">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>//show_message(ord(chr(keyboard_key)));
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="10" enumb="101">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>script_execute(CleanMemDll);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="10" enumb="100">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>var Name;
-with obj_Deck
-{
-    if Active
-    {
-        Name = DeckName;
-    }
-}
-show_message("1");
-script_execute(CreateTextDialog, 800, 600, "Enter deck name", "ChangeDeckName" , "Back", "", "Ok", "ChangeDeckName", Name)
-
+            <string>draw_text( x, y + 455, string(Page) + "/" + string(LastPage));
 </string>
           </argument>
         </arguments>

@@ -2,12 +2,12 @@
 //После нахождения помещает результат JSON в JSmap
 //argument1 - тип прихода карты - random/opponent
 
-StringForSearch = "card_id" + chr(34) + ": " + string(argument0) + ".";
+var StringForSearch = "card_id" + chr(34) + ": " + string(argument0) + ".";
 
-CardDatabase = file_text_open_read("CardDB.adbf");
+var CardDatabase = file_text_open_read("CardDB.adbf");
 while !file_text_eof(CardDatabase)
 {
-    StringOfFile = file_text_read_string(CardDatabase);
+    var StringOfFile = file_text_read_string(CardDatabase);
     
     if string_pos(StringForSearch, StringOfFile) > 0
     {    

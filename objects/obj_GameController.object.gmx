@@ -77,8 +77,11 @@ else if room = 0 //Если мы в окне авторизации
             
     //script_execute(SetJSmap, "getDatabaseCards", "file_db", false, "", "", "", "");
     //script_execute(SendToSrv);
-     
-    script_execute(SetJSmap, "checkHash", "hash", string(md5_file("CardDB.adbf")), "", "", "", "");
+    
+    ini_open("Settings.ini");
+    var Version = ini_read_real("DataBase", "BaseVersion", 0);     
+    ini_close(); 
+    script_execute(SetJSmap, "checkHash", "hash", Version , "", "", "", "");
     script_execute(SendToSrv);
           
 }

@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>Num = obj_FilterScroll.CurrFilterCount;
-Text = btn_Filters.List[Num];
+Text = btn_FilterOpen.List[Num];
 
 if obj_DeckManager.Filters[Num]
 {SpNum = 1;}
@@ -60,7 +60,7 @@ else
     {exit;}
 }
 
-if !btn_Filters.Usable {exit;}
+if !btn_FilterOpen.Usable {exit;}
 
 if SpNum = 1
 {

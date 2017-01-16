@@ -4,7 +4,7 @@ for (var i = 0; i < obj_DeckManager.DecksCount; i += 1)
     MC[0] = "";
     MC = script_execute(ParseCollection, obj_DeckManager.Decks[i]);
     
-    if MC[0] = string(DeckID)
+    if MC[0] = string(obj_DeckListLens.DeckID)
     {
         var MC;
         MC[0] = "";
@@ -19,4 +19,3 @@ for (var i = 0; i < obj_DeckManager.DecksCount; i += 1)
     }
     
 }
-DeckName = obj_TextField.Text;

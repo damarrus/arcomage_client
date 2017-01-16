@@ -1,54 +1,30 @@
 //Скрипт возвращает значения колоды до их изменения, и переключает вкладку на выбранную колоду
-var PressedDeckID = argument0;
 
-with (obj_Deck)
+if obj_DeckListLens.New
 {
-    if Active
-    {  
-        if New
-        {
-            obj_GameController.BlockAll = true;
-            obj_DeckManager.DecksCount -= 1;
-            Deleted = true;
-            btn_SaveDeck.Active = false;
-            btn_SaveDeck.visible = false;
-            obj_GameController.ProgramClick = true;
-            event_perform(ev_mouse, ev_left_release);
-            obj_GameController.ProgramClick = false; 
-        }
-        else
-        {
-            obj_GameController.BlockAll = true; 
-            DeckName = SavedDeckName;
-            CardsInDeck = SavedCardsInDeck;
-            btn_SaveDeck.Active = false;
-            btn_SaveDeck.visible = false;
-            
-            for (var i = 0; i <= (global.MaxDeck - 1); i += 1)
-            {        
-                CardsID[i] = SavedCardsID[i];        
-            }  
-        }      
-    }
-    
-}
-
-with (obj_Deck)
-{   
-    if !Deleted
+    script_execute(ClearSelectedDeck);
+    btn_SaveDeck.Active = false;
+    btn_SaveDeck.visible = false;
+    obj_DeckManager.DecksCount -= 1;
+    obj_GameController.ProgramClick = true;
+    with btn_OpenDeckList
     {
-        if id = obj_DeckManager.PressedDeckID
-        {
-            Active = true;
-            obj_GameController.ProgramClick = true;
-            event_perform(ev_mouse, ev_left_release); 
-            obj_GameController.ProgramClick = false;
-        }
-        else
-        {
-            Active = false;
-        }
+        event_perform(ev_mouse, ev_left_release);
     }
+    obj_GameController.ProgramClick = false;
+    
+    obj_DeckListLens.New = false;
 }
+else
+{
+    btn_SaveDeck.Active = false;
+    btn_SaveDeck.visible = false;
+    for (var i=0; i < global.MaxDeck; i += 1)
+    {
+        obj_DeckListLens.DeckCards[i] = real(obj_DeckListLens.SavedDeckCards[i]) 
+    }
+    //Обновляем карты на листе карт
+    script_execute(CreateCardListFromDeck);
+}      
 
 script_execute(SetCardInDeckVision);

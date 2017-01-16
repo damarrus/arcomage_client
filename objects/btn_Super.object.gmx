@@ -61,24 +61,44 @@ BtnScript = obj_TextDialog.CurrBtnScript; //Идентифатор скрипт�
             <string>script_execute(MultiScript, BtnScript);
 
 //Под конец всея руси удаляем объект, которому подчинена кнопка, и все оставшиеся супер кнопки
-with (obj_MultiDialog)
+//Удаляем только если нужно удалить!
+var Delete = false;
+if instance_exists(obj_MultiDialog) 
 {
-    instance_destroy();
+    if obj_MultiDialog.NeedToDelete
+    {
+        Delete = true;
+    }
+}
+else if instance_exists(obj_TextDialog) 
+{
+    if obj_TextDialog.NeedToDelete
+    {
+        Delete = true;
+    }
 }
 
-with (obj_TextDialog)
+if Delete
 {
-    instance_destroy();
-}
-
-with (btn_Super)
-{
-    instance_destroy();
-}
-
-with (obj_TextField)
-{
-    instance_destroy();
+    with (obj_MultiDialog)
+    {
+        instance_destroy();
+    }
+    
+    with (obj_TextDialog)
+    {
+        instance_destroy();
+    }
+    
+    with (btn_Super)
+    {
+        instance_destroy();
+    }
+    
+    with (obj_TextField)
+    {
+        instance_destroy();
+    }
 }
 </string>
           </argument>

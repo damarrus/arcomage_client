@@ -9,34 +9,79 @@
   </NewExtensions>
   <sounds name="sound"/>
   <sprites name="sprites">
-    <sprite>sprites\sp_DeckScroll</sprite>
-    <sprite>sprites\sp_ModeScroll</sprite>
-    <sprite>sprites\sp_FilterScroll</sprite>
     <sprite>sprites\sp_Button</sprite>
     <sprite>sprites\sp_TextField</sprite>
     <sprite>sprites\sp_Dialog</sprite>
-    <sprite>sprites\sp_Card</sprite>
     <sprite>sprites\sp_Lion</sprite>
     <sprite>sprites\sp_TDragon</sprite>
     <sprite>sprites\sp_TLion</sprite>
     <sprite>sprites\sp_Line</sprite>
     <sprite>sprites\sp_Arrow</sprite>
-    <sprite>sprites\sp_ScrollUp</sprite>
     <sprite>sprites\sp_Scroller</sprite>
     <sprite>sprites\sp_DeckManager</sprite>
     <sprite>sprites\sp_Textbox</sprite>
     <sprite>sprites\sp_Loginbox</sprite>
-    <sprite>sprites\sp_Search</sprite>
     <sprite>sprites\sp_FilterInList</sprite>
     <sprite>sprites\sp_CardInList</sprite>
+    <sprite>sprites\sp_Search</sprite>
     <sprite>sprites\sp_Menu</sprite>
     <sprite>sprites\sp_background</sprite>
     <sprite>sprites\sp_Handfield</sprite>
     <sprite>sprites\sp_LoginButtons</sprite>
+    <sprites name="Filters">
+      <sprite>sprites\sp_FilterList</sprite>
+    </sprites>
     <sprite>sprites\sp_Deck</sprite>
+    <sprites name="PlaySettings">
+      <sprite>sprites\sp_BigWindow</sprite>
+      <sprite>sprites\sp_BtnReady</sprite>
+      <sprite>sprites\sp_DecorArc</sprite>
+      <sprite>sprites\sp_SmallWindow</sprite>
+      <sprite>sprites\sp_PlayDeckElem</sprite>
+    </sprites>
+    <sprites name="Lists">
+      <sprite>sprites\sp_ListLens</sprite>
+      <sprite>sprites\sp_BtnDelete</sprite>
+      <sprite>sprites\sp_BtnSave</sprite>
+      <sprite>sprites\sp_CardListElem</sprite>
+      <sprite>sprites\sp_GearList</sprite>
+      <sprite>sprites\sp_BtnDeckList</sprite>
+      <sprite>sprites\sp_DeckListElem</sprite>
+      <sprite>sprites\sp_BtnNewDeck</sprite>
+      <sprite>sprites\sp_ScrollUp</sprite>
+      <sprite>sprites\sp_ScrollDown</sprite>
+      <sprite>sprites\sp_ScrollDown2</sprite>
+      <sprite>sprites\sp_CardList</sprite>
+      <sprite>sprites\sp_GearShadow</sprite>
+      <sprite>sprites\sp_DoorUp</sprite>
+      <sprite>sprites\sp_DoorDown</sprite>
+    </sprites>
     <sprite>sprites\sp_Lens</sprite>
+    <sprites name="MainMenu">
+      <sprite>sprites\sp_StaticPanelUp</sprite>
+      <sprite>sprites\sp_StaticPanelDown</sprite>
+      <sprite>sprites\sp_NickField</sprite>
+      <sprite>sprites\sp_BtnMessage</sprite>
+      <sprite>sprites\sp_BtnProfile</sprite>
+      <sprite>sprites\sp_BtnOptions</sprite>
+      <sprite>sprites\sp_BtnExit</sprite>
+      <sprite>sprites\sp_GoldField</sprite>
+      <sprite>sprites\sp_BtnProfSett</sprite>
+      <sprite>sprites\sp_BtnSearch</sprite>
+      <sprite>sprites\sp_Photo</sprite>
+      <sprite>sprites\sp_BtnShop</sprite>
+      <sprite>sprites\sp_StaticMetal</sprite>
+      <sprite>sprites\sp_WindowBack</sprite>
+      <sprite>sprites\sp_Empty</sprite>
+    </sprites>
+    <sprites name="Card">
+      <sprite>sprites\sp_Card</sprite>
+      <sprite>sprites\sp_CardGlass</sprite>
+      <sprite>sprites\sp_ResIcon</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
+    <background>background\bg_MainMenu</background>
     <background>background\background0</background>
   </backgrounds>
   <paths name="paths">
@@ -60,6 +105,7 @@
       <script>scripts\CreateScroll.gml</script>
       <script>scripts\CreateFilterScroll.gml</script>
       <script>scripts\CreateModeScroll.gml</script>
+      <script>scripts\CreateDeckScroll.gml</script>
       <script>scripts\SetCardMoving.gml</script>
     </scripts>
     <scripts name="Network">
@@ -93,6 +139,8 @@
       <script>scripts\SaveDeck.gml</script>
       <script>scripts\DeleteDeck.gml</script>
       <script>scripts\ChooseDeck.gml</script>
+      <script>scripts\GetDeckNameByIndex.gml</script>
+      <script>scripts\ClearSelectedDeck.gml</script>
       <script>scripts\EndTurn.gml</script>
     </scripts>
     <scripts name="Systems">
@@ -113,7 +161,14 @@
     <font>fonts\font0</font>
     <font>fonts\LoginTB</font>
     <font>fonts\font1</font>
+    <font>fonts\font_CardName</font>
+    <font>fonts\font_CardResourses</font>
+    <font>fonts\font_NickName</font>
+    <font>fonts\font_CardLongName</font>
+    <font>fonts\font_CardVeryLongName</font>
+    <font>fonts\font_DeckName</font>
     <font>fonts\font2</font>
+    <font>fonts\font_CardDescription</font>
   </fonts>
   <objects name="objects">
     <objects name="Card">
@@ -135,8 +190,15 @@
     <objects name="Menu">
       <object>objects\btn_UnAuth</object>
       <object>objects\btn_Botgame</object>
+      <object>objects\obj_NickField</object>
       <object>objects\btn_Search</object>
-      <object>objects\obj_Menu</object>
+      <object>objects\btn_Shop</object>
+      <object>objects\btn_Profile</object>
+      <object>objects\btn_Message</object>
+      <object>objects\btn_Exit</object>
+      <object>objects\btn_Options</object>
+      <object>objects\obj_GoldField</object>
+      <object>objects\btn_ProfSett</object>
       <object>objects\obj_Textbox</object>
       <object>objects\obj_Message</object>
       <object>objects\obj_MiniWarn</object>
@@ -159,29 +221,47 @@
         <object>objects\obj_ModeElem</object>
         <object>objects\obj_ModeScroll</object>
       </objects>
+      <objects name="StaticMenu">
+        <object>objects\obj_StaticPanelUp</object>
+        <object>objects\obj_StaticPanelDown</object>
+        <object>objects\obj_StaticMetalBg</object>
+        <object>objects\obj_StaticLens</object>
+        <object>objects\obj_StaticMetal</object>
+        <object>objects\obj_DoorUp</object>
+        <object>objects\obj_Photo</object>
+      </objects>
     </objects>
     <object>objects\btn_TB</object>
     <objects name="DeckManager">
+      <object>objects\obj_DeckManager</object>
       <objects name="CardForDeck">
         <object>objects\obj_CardOnPage</object>
-        <object>objects\obj_CardInList</object>
       </objects>
       <objects name="DeckManButton">
         <object>objects\btn_DeckManager</object>
-        <object>objects\btn_NewDeck</object>
         <object>objects\btn_TArrow</object>
         <object>objects\btn_BArrow</object>
         <object>objects\btn_SaveDeck</object>
         <object>objects\btn_DeleteDeck</object>
-        <object>objects\btn_ChooseDeck</object>
       </objects>
-      <object>objects\obj_DeckManager</object>
+      <objects name="DeckList">
+        <object>objects\btn_OpenDeckList</object>
+        <object>objects\obj_DeckListElem</object>
+        <object>objects\obj_DeckScrollNew</object>
+        <object>objects\btn_NewDeck</object>
+        <object>objects\obj_DeckListLens</object>
+      </objects>
       <object>objects\obj_DeckScroll</object>
       <object>objects\obj_Deck</object>
       <objects name="Filters">
-        <object>objects\btn_Filters</object>
+        <object>objects\obj_Filters</object>
+        <object>objects\btn_FilterOpen</object>
         <object>objects\obj_FilterElem</object>
         <object>objects\obj_FilterScroll</object>
+      </objects>
+      <objects name="CardList">
+        <object>objects\obj_CardList</object>
+        <object>objects\obj_CardInList</object>
       </objects>
     </objects>
   </objects>

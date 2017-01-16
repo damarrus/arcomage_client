@@ -1,11 +1,12 @@
-CardsOnPage = obj_DeckManager.CardsInRow * obj_DeckManager.CardsInCol; //Всего картишек на листе
+var CardsOnPage = obj_DeckManager.CardsInRow * obj_DeckManager.CardsInCol; //Всего картишек на листе
 
-From = obj_DeckManager.Page * CardsOnPage - (CardsOnPage - 1) - 1; //Определяем начальный id карты с которого начнем лист  
-
+var From = obj_DeckManager.Page * CardsOnPage - (CardsOnPage - 1) - 1; //Определяем начальный id карты с которого начнем лист  
+var To = 0;
 
 var i = 1;
 var FilteredCollection = script_execute(FilterCollection);
 
+var jEnd = 0;
 jEnd = array_length_1d(FilteredCollection);
 var isEmpty = false;
 if FilteredCollection[0] = 0
@@ -41,4 +42,4 @@ if !isEmpty
     
 }
 
-
+//script_execute(CleanMemDll);

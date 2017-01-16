@@ -85,6 +85,13 @@ instance_create(x - 50, y + 80, btn_LoginBtn);
           <argument>
             <kind>1</kind>
             <string>Active = true;
+with (obj_LogPassField)
+{
+    if Type != "Login"
+    {
+        Active = true;
+    }
+}
 </string>
           </argument>
         </arguments>
